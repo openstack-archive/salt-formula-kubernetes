@@ -1,0 +1,83 @@
+{%- from "kubernetes/map.jinja" import master with context %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-apiserver
+  namespace: kube-system
+spec:
+  dnsPolicy: ClusterFirst
+  hostNetwork: true
+  restartPolicy: Always
+  terminationGracePeriodSeconds: 30
+  containers:
+  - name: kube-apiserver
+    image: {{ master.registry }}/kube-apiserver:{{ master.version }}
+    command:
+    - /bin/sh
+    - -c
+    - /usr/local/bin/kube-apiserver
+      --address=127.0.0.1
+      --etcd-servers={% for member in master.etcd.members %}http://{{ member.host }}:4001{% if not loop.last %},{% endif %}{% endfor %}
+      --admission-control=NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota
+      --service-cluster-ip-range={{ master.service_addresses }}
+      --client-ca-file=/etc/ssl/certs/ca-{{ master.ca }}.crt
+      --basic-auth-file=/srv/kubernetes/basic_auth.csv
+      --tls-cert-file=/etc/ssl/certs/kubernetes-server.crt
+      --tls-private-key-file=/etc/ssl/private/kubernetes-server.key
+      --secure-port=443
+      --bind-address={{ master.apiserver.address }}
+      --token-auth-file=/srv/kubernetes/known_tokens.csv
+      --v=2
+      --allow-privileged=True
+      1>>/var/log/kube-apiserver.log 2>&1
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      httpGet:
+        host: 127.0.0.1
+        path: /healthz
+        port: 8080
+        scheme: HTTP
+      initialDelaySeconds: 15
+      timeoutSeconds: 15
+    ports:
+    - containerPort: 443
+      hostPort: 443
+      name: https
+      protocol: TCP
+    - containerPort: 8080
+      hostPort: 8080
+      name: local
+      protocol: TCP
+    resources:
+      requests:
+        cpu: 250m
+    volumeMounts:
+    - mountPath: /srv/kubernetes
+      name: srvkube
+      readOnly: true
+    - mountPath: /var/log/kube-apiserver.log
+      name: logfile
+    - mountPath: /etc/ssl
+      name: etcssl
+      readOnly: true
+    - mountPath: /usr/share/ca-certificates
+      name: usrsharecacerts
+      readOnly: true
+    - mountPath: /srv/sshproxy
+      name: srvsshproxy
+  volumes:
+  - hostPath:
+      path: /srv/kubernetes
+    name: srvkube
+  - hostPath:
+      path: /var/log/kube-apiserver.log
+    name: logfile
+  - hostPath:
+      path: /etc/ssl
+    name: etcssl
+  - hostPath:
+      path: /usr/share/ca-certificates
+    name: usrsharecacerts
+  - hostPath:
+      path: /srv/sshproxy
+    name: srvsshproxy

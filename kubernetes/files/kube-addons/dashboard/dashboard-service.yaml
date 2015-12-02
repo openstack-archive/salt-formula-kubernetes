@@ -1,0 +1,18 @@
+{%- from "kubernetes/map.jinja" import master with context %}
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernetes-dashboard
+  namespace: kube-system
+  labels:
+    k8s-app: kubernetes-dashboard
+    kubernetes.io/cluster-service: "true"
+spec:
+{%- if master.network.engine != 'opencontrail' %}
+  selector:
+    k8s-app: kubernetes-dashboard
+  type: NodePort
+{%- endif %}
+  ports:
+  - port: 80
+    targetPort: 9090

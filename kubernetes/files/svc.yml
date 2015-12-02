@@ -1,0 +1,17 @@
+{% from "kubernetes/map.jinja" import control with context %}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: {{ service.service }}-{{ service.role }}
+    app: {{ service.service }}-{{ service.role }}
+  name: {{ service.service }}-{{ service.role }}
+spec:
+  ports:
+    {%- for port in service.ports %}
+    - port: {{ port.port }}
+      name: {{ port.name }}
+    {%- endfor %}
+  type: {{ service.type }}
+  selector:
+    app: {{ service.service }}-{{ service.role }}

@@ -1,0 +1,12 @@
+{%- from "kubernetes/map.jinja" import master with context %}
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: glusterfs-cluster
+subnets:
+  {%- for member in master.storage.members %}
+  addresses:
+    ip: {{ member.host }}
+    ports: 
+      port: {{ member.port }}
+  {%- endfor %}

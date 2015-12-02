@@ -1,0 +1,46 @@
+{%- from "kubernetes/map.jinja" import pool with context %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-proxy
+  namespace: kube-system
+spec:
+  hostNetwork: true
+  containers:
+  - name: kube-proxy
+    image: {{ pool.registry }}/kube-proxy:{{ pool.version }}
+    resources:
+      requests:
+        cpu: 200m
+    command:
+    - /bin/sh
+    - -c
+    - kube-proxy 
+      --logtostderr=true 
+      --v=2 
+      --kubeconfig=/etc/kubernetes/proxy.kubeconfig 
+      --master=https://{{ pool.master.host }}
+      {% if pool.network.engine == 'calico' %}--proxy-mode=iptables{% endif %} 
+      1>>/var/log/kube-proxy.log 2>&1
+    securityContext:
+      privileged: true
+    volumeMounts:
+    - mountPath: /etc/ssl/certs
+      name: ssl-certs-host
+      readOnly: true
+    - mountPath: /var/log
+      name: varlog
+      readOnly: false
+    - mountPath: /var/lib/kube-proxy/kubeconfig
+      name: kubeconfig
+      readOnly: false
+  volumes:
+  - hostPath:
+      path: /usr/share/ca-certificates
+    name: ssl-certs-host
+  - hostPath:
+      path: /var/lib/kube-proxy/kubeconfig
+    name: kubeconfig
+  - hostPath:
+      path: /var/log
+    name: varlog

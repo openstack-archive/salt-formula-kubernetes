@@ -1,0 +1,117 @@
+{% from "kubernetes/map.jinja" import control with context %}
+apiVersion: {{ service.apiVersion }}
+kind: {{ service.kind }}
+metadata:
+  name: {{ service.service }}-{{ service.role }}
+  namespace: {{ service.namespace }}
+  labels:
+    app: {{ service.service }}-{{ service.role }}
+spec:
+  replicas: {{ service.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ service.service }}-{{ service.role }}
+    spec:
+      {%- if service.hostNetwork is defined %}
+      hostNetwork: True
+      {%- endif %}
+      containers:
+      {%- for container_name, container in service.container.iteritems() %}
+        - name: {{ container_name }}
+          image: {% if container.registry is defined %}{{ container.registry }}/{%- endif %}{{ container.image }}{%- if container.tag is defined %}:{{ container.tag }}{%- endif %}
+          imagePullPolicy: IfNotPresent
+          {%- if container.privileged is defined %}
+          securityContext:
+            privileged: True
+          {%- endif %}
+          {%- if container.variables is defined %}
+          env:
+          {%- for variable in container.variables %}
+            - name: {{ variable.name }}
+              {%- if variable.fieldPath is defined %}
+              valueFrom:
+                fieldRef:
+                  fieldPath: {{ variable.fieldPath }}
+              {%- else %}
+              value: {{ variable.value }}
+              {%- endif %}
+          {%- endfor %}
+          {%- endif %}
+          {%- if container.ports is defined %}
+          ports:
+          {%- for port in container.ports %}
+            - containerPort: {{ port.port }}
+              name: {{ port.name }}
+          {%- endfor %}
+          {%- endif %}
+          {%- if container.command is defined %}
+          command:
+          {%- for command in container.command %}
+            - {{ command }}
+          {%- endfor %}
+          {%- endif %}
+          {%- if container.volumes is defined %}
+          volumeMounts:
+          {%- for volume in container.volumes %}
+            - name:  {{ volume.name }}
+              mountPath: {{ volume.mount }}
+              readOnly: {{ volume.read_only }}
+          {%- endfor %}
+          {%- endif %}
+          {%- if container.liveness_probe is defined %}
+          livenessProbe:
+            {%- if container.liveness_probe.type == 'http' %}
+            httpGet:
+              path: {{ container.liveness_probe.path }}
+              port: {{ container.liveness_probe.port }}
+            {%- elif container.liveness_probe.type == 'exec' %}
+            exec:
+              command:
+                {%- for command in container.liveness_probe.command %}
+                - {{ command }}
+                {%- endfor %}
+            {%- endif %}
+            initialDelaySeconds: {{ container.liveness_probe.initial_delay }}
+            timeoutSeconds: {{ container.liveness_probe.timeout }}
+            {%- endif %}
+          {%- if container.readiness_probe is defined %}
+          readinessProbe:
+            {%- if container.readiness_probe.type == 'http' %}
+            httpGet:
+              path: {{ container.readiness_probe.path }}
+              port: {{ container.readiness_probe.port }}
+            {%- elif container.readiness_probe.type == 'exec' %}
+            exec:
+              command:
+                {%- for command in container.liveness_probe.command %}
+                - {{ command }}
+                {%- endfor %}
+            {%- endif %}
+            initialDelaySeconds: {{ container.readiness_probe.initial_delay }}
+            timeoutSeconds: {{ container.readiness_probe.timeout }}
+            {%- endif %}
+      {%- endfor %}
+      {%- if service.volume is defined %}
+      volumes:
+      {%- for volume_name, volume in service.volume.iteritems() %}
+        - name: {{ volume_name }}
+          {%- if volume.type == 'emptyDir' %}
+          emptyDir: {}
+          {%- elif volume.type == 'hostPath' %}
+          hostPath:
+            path: {{ volume.path }}
+          {%- elif volume.type == 'glusterfs' %}
+          glusterfs:
+            endpoints: {{ volume.endpoints }}
+            path: {{ volume.path }}
+            readOnly: {{ volume.read_only }}
+          {%- endif %}
+      {%- endfor %}
+      {%- endif %}
+      {%- if service.nodeSelector is defined %}
+      nodeSelector:
+        {%- for selector in service.nodeSelector %}
+        {{ selector.key }}: {{ selector.value }}
+        {%- endfor %}
+      {%- endif %}

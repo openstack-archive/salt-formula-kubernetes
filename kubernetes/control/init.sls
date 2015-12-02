@@ -1,0 +1,3 @@
+
+include:
+- kubernetes.control.cluster

@@ -1,0 +1,64 @@
+{%- from "kubernetes/map.jinja" import master with context %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-controller-manager
+  namespace: kube-system
+spec:
+  dnsPolicy: ClusterFirst
+  hostNetwork: true
+  restartPolicy: Always
+  terminationGracePeriodSeconds: 30
+  containers:
+  - name: kube-controller-manager
+    image: {{ master.registry }}/kube-controller-manager:{{ master.version }}
+    command:
+    - /bin/sh
+    - -c
+    - /usr/local/bin/kube-controller-manager
+      --master=127.0.0.1:8080
+      --cluster-name=kubernetes
+      --service-account-private-key-file=/etc/ssl/private/kubernetes-server.key
+      --v=2
+      --root-ca-file=/etc/ssl/certs/ca-{{ master.ca }}.crt
+      --leader-elect=true
+      1>>/var/log/kube-controller-manager.log 2>&1
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      httpGet:
+        host: 127.0.0.1
+        path: /healthz
+        port: 10252
+        scheme: HTTP
+      initialDelaySeconds: 15
+      timeoutSeconds: 15
+    resources:
+      limits:
+        cpu: 200m
+      requests:
+        cpu: 200m
+    volumeMounts:
+    - mountPath: /srv/kubernetes
+      name: srvkube
+      readOnly: true
+    - mountPath: /var/log/kube-controller-manager.log
+      name: logfile
+    - mountPath: /etc/ssl
+      name: etcssl
+      readOnly: true
+    - mountPath: /usr/share/ca-certificates
+      name: usrsharecacerts
+      readOnly: true
+  volumes:
+  - hostPath:
+      path: /srv/kubernetes
+    name: srvkube
+  - hostPath:
+      path: /var/log/kube-controller-manager.log
+    name: logfile
+  - hostPath:
+      path: /etc/ssl
+    name: etcssl
+  - hostPath:
+      path: /usr/share/ca-certificates
+    name: usrsharecacerts

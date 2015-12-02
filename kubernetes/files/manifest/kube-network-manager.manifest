@@ -1,0 +1,24 @@
+{%- from "kubernetes/map.jinja" import master with context %}
+{
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+        "namespace": "opencontrail",
+        "name": "kube-network-manager"
+    },
+    "spec":{
+        "hostNetwork": true,
+        "containers":[{
+            "name": "kube-network-manager",
+            "image": "{{ master.network.network_manager.image }}:{{ master.network.network_manager.tag }}",
+            "volumeMounts": [{
+                    "name": "config",
+                    "mountPath": "/etc/kubernetes"
+            }]
+        }],
+        "volumes": [{
+            "name": "config",
+            "hostPath": {"path": "/etc/kubernetes"}
+        }]
+    } 
+}

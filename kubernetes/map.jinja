@@ -1,0 +1,42 @@
+{% set common = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['curl', 'git', 'apt-transport-https', 'python-apt', 'nfs-common', 'socat', 'netcat-traditional', 'openssl'],
+        'services': [],
+    },
+    'RedHat': {
+        'pkgs': ['curl', 'git', 'apt-transport-https', 'python-apt', 'nfs-common', 'socat', 'netcat-traditional', 'python'],
+        'services': [],
+    },
+}, merge=salt['pillar.get']('kubernetes:common')) %}
+
+{% set master = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': [],
+        'services': [],
+    },
+    'RedHat': {
+        'pkgs': [],
+        'services': [],
+    },
+}, merge=salt['pillar.get']('kubernetes:master')) %}
+
+{% set pool = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': [],
+        'services': [],
+    },
+    'RedHat': {
+        'pkgs': [],
+        'services': [],
+    },
+}, merge=salt['pillar.get']('kubernetes:pool')) %}
+
+{% set control = salt['grains.filter_by']({
+    'Debian': {
+        'service': {},
+    },
+    'RedHat': {
+        'service': {},
+    },
+}, merge=salt['pillar.get']('kubernetes:control')) %}
+

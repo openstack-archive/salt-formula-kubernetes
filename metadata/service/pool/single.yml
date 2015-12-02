@@ -1,0 +1,30 @@
+applications:
+- kubernetes
+classes:
+- service.kubernetes.support
+- service.kubernetes.common
+parameters:
+  kubernetes:
+    pool:
+      enabled: true
+      version: v1.2.0
+      master:
+        host: ${_param:master_address}
+        apiserver:
+          members:
+            - host: ${_param:master_address}
+        etcd:
+          members:
+            - host: ${_param:master_address}
+      address: 0.0.0.0
+      cluster_dns: 10.254.0.10
+      allow_privileged: True
+      cluster_domain: cluster.local
+      kubelet:
+        config: /etc/kubernetes/manifests
+        allow_privileged: True
+        frequency: 5s
+      token:
+        kubelet: 7bN5hJ9JD4fKjnFTkUKsvVNfuyEddw3r
+        kube_proxy: DFvQ8GelB7afH3wClC9romaMPhquyyEe
+      ca: kubernetes

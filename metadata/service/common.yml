@@ -1,0 +1,6 @@
+parameters:
+  kubernetes:
+    common:
+      binaries_version: v1.1.1
+      network:
+        engine: none

@@ -1,0 +1,6 @@
+applications:
+- kubernetes
+parameters:
+  kubernetes:
+    control:
+      enabled: true

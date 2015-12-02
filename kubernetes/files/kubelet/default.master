@@ -1,0 +1,4 @@
+{%- from "kubernetes/map.jinja" import master with context %}
+
+# test_args has to be kept at the end, so they'll overwrite any prior configuration
+DAEMON_ARGS="--config=/etc/kubernetes/manifests --allow-privileged={{ master.kubelet.allow_privileged }} --cluster_dns={{ master.addons.dns.server }} --register-node=false --cluster_domain={{ master.addons.dns.domain }} --v=2"

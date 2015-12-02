@@ -1,0 +1,7 @@
+{%- from "kubernetes/map.jinja" import master with context %}
+# This host's IPv4 address (the source IP address used to reach other nodes
+# in the Kubernetes cluster).
+DEFAULT_IPV4={{ master.apiserver.address }}
+
+# IP and port of etcd instance used by Calico
+ETCD_AUTHORITY={{ master.apiserver.address }}:6666
