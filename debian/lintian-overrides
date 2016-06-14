@@ -1,0 +1,1 @@
+salt-formula-kubernetes binary: shell-script-fails-syntax-check usr/share/salt-formulas/env/kubernetes/conf/restore.sh

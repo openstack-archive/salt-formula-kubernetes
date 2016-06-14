@@ -1,0 +1,5 @@
+salt-formula-kubernetes (0.1) trusty; urgency=medium
+
+  * Initial release
+
+ -- Jakub Pavlik <jakub.pavlik@tcpcloud.eu>  Thu, 13 Jun 2016 23:23:41 +0200

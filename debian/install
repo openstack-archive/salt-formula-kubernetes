@@ -1,0 +1,2 @@
+kubernetes/*             /usr/share/salt-formulas/env/kubernetes/
+metadata/service/*      /usr/share/salt-formulas/reclass/service/kubernetes/
