@@ -1,4 +1,4 @@
-
+{%- from "kubernetes/map.jinja" import pool with context %}
 include:
 - kubernetes.pool.service
 {%- if pool.network.engine == "calico" %}

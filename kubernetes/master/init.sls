@@ -1,4 +1,4 @@
-
+{%- from "kubernetes/map.jinja" import master with context %}
 include:
 - kubernetes.master.service
 - kubernetes.master.etcd
