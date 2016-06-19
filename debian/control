@@ -3,7 +3,7 @@ Maintainer: Jakub Pavlik <jakub.pavlik@tcpcloud.eu>
 Section: admin
 Priority: optional
 Build-Depends: debhelper (>= 9)
-Build-Depends-Indep: python-all, python-yaml, salt-master
+Build-Depends-Indep: python-all, python-yaml, salt-master, salt-formula-linux
 Standards-Version: 3.9.6
 Homepage: http://www.tcpcloud.eu
 Vcs-Browser: https://github.com/tcpcloud/salt-formula-kubernetes
