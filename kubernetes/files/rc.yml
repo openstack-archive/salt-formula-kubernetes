@@ -16,6 +16,9 @@ spec:
       {%- if service.hostNetwork is defined %}
       hostNetwork: True
       {%- endif %}
+      {%- if service.host_pid is defined %}
+      hostPID: True
+      {%- endif %}
       containers:
       {%- for container_name, container in service.container.iteritems() %}
         - name: {{ container_name }}
