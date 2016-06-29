@@ -6,6 +6,7 @@ metadata:
     name: {{ service.service }}-{{ service.role }}
     app: {{ service.service }}-{{ service.role }}
   name: {{ service.service }}-{{ service.role }}
+  namespace: {{ service.namespace }}
 spec:
   ports:
     {%- for port in service.ports %}
@@ -15,3 +16,7 @@ spec:
   type: {{ service.type }}
   selector:
     app: {{ service.service }}-{{ service.role }}
+{%- if service.external_ip is defined %}
+  externalIPs:
+  - "service.external_ip"
+{%- endif -%}
