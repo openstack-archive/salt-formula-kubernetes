@@ -17,7 +17,7 @@ parameters:
   kubernetes:
     master:
       enabled: true
-      version: v1.2.0
+      version: ${_param:kubernetes_version}
       registry: tcpcloud
       service_addresses: 10.254.0.0/16
       admin:

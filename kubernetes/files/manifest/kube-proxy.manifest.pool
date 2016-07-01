@@ -15,12 +15,12 @@ spec:
     command:
     - /bin/sh
     - -c
-    - kube-proxy 
-      --logtostderr=true 
-      --v=2 
-      --kubeconfig=/etc/kubernetes/proxy.kubeconfig 
+    - kube-proxy
+      --logtostderr=true
+      --v=2
+      --kubeconfig=/etc/kubernetes/proxy.kubeconfig
       --master=https://{{ pool.master.host }}
-      {% if pool.network.engine == 'calico' %}--proxy-mode=iptables{% endif %} 
+      {%- if pool.network.engine == 'calico' %}--proxy-mode=iptables{% endif %}
       1>>/var/log/kube-proxy.log 2>&1
     securityContext:
       privileged: true
@@ -31,16 +31,22 @@ spec:
     - mountPath: /var/log
       name: varlog
       readOnly: false
-    - mountPath: /var/lib/kube-proxy/kubeconfig
+    - mountPath: /etc/kubernetes/proxy.kubeconfig
       name: kubeconfig
+      readOnly: false
+    - mountPath: /var/run/dbus/system_bus_socket
+      name: dbus
       readOnly: false
   volumes:
   - hostPath:
-      path: /usr/share/ca-certificates
+      path: /etc/ssl/certs
     name: ssl-certs-host
   - hostPath:
-      path: /var/lib/kube-proxy/kubeconfig
+      path: /etc/kubernetes/proxy.kubeconfig
     name: kubeconfig
   - hostPath:
       path: /var/log
     name: varlog
+  - hostPath:
+      path: /var/run/dbus/system_bus_socket
+    name: dbus

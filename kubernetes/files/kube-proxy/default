@@ -1,5 +1,0 @@
-{%- from "kubernetes/map.jinja" import pool with context %}
-
-# test_args has to be kept at the end, so they'll overwrite any prior configuration
-DAEMON_ARGS="--logtostderr=true --v=2 --kubeconfig=/var/lib/kube-proxy/kubeconfig --master=https://{{ pool.master.host }}{% if pool.network.engine == 'calico' %} --proxy-mode=iptables{% endif %}"
-#--kubeconfig=/etc/kubernetes/proxy.kubeconfig"
