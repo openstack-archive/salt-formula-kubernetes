@@ -8,13 +8,6 @@ addon-dir-create:
     - group: root
     - mode: 0755
 
-/etc/kubernetes/addons/namespace.yml:
-  file.managed:
-    - source: salt://kubernetes/files/kube-addons/namespace.yml
-    - user: root
-    - group: root
-    - file_mode: 644
-
 {%- if master.addons.dns.enabled %}
 
 /etc/kubernetes/addons/dns/skydns-svc.yaml:

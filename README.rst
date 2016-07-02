@@ -211,6 +211,46 @@ Kubernetes with GlusterFS for storage
             port: 24007
          ...
 
+Kubernetes namespaces
+---------------------
+
+Create namespace:
+
+.. code-block:: yaml
+
+    kubernetes:
+      master
+        ...
+        namespace:
+          kube-system:
+            enabled: True
+          namespace2:
+            enabled: True
+          namespace3:
+            enabled: False
+         ...
+
+Kubernetes labels
+-----------------
+
+Create namespace:
+
+.. code-block:: yaml
+
+    kubernetes:
+      pool
+        ...
+        host:
+          label:
+            key01:
+              value: value01
+              enable: True
+            key02:
+              value: value02
+              enable: False
+          name: ${linux:system:name}
+         ...
+
 Kubernetes Service Definitions in pillars
 ==========================================
 

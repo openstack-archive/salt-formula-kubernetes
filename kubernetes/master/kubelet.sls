@@ -12,6 +12,23 @@
 /etc/kubernetes/config:
   file.absent
 
+{%- for name,namespace in master.namespace.iteritems() %}
+
+{%- if namespace.enabled %}
+
+/registry/namespaces/{{ name }}:
+  etcd.set:
+    - value: '{"kind":"Namespace","apiVersion":"v1","metadata":{"name":"{{ name }}"},"spec":{"finalizers":["kubernetes"]},"status":{"phase":"Active"}}'
+
+{%- else %}
+
+/registry/namespaces/{{ name }}:
+  etcd.rm
+
+{%- endif %}
+
+{%- endfor %}
+
 master_services:
   service.running:
   - names: {{ master.services }}
