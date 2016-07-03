@@ -18,7 +18,6 @@
     - mode: 644
     - makedirs: true
 
-<<<<<<< HEAD
 /etc/kubernetes/config:
   file.absent
 

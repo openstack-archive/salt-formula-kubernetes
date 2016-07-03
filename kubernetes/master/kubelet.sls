@@ -1,6 +1,8 @@
 {%- from "kubernetes/map.jinja" import master with context %}
 {%- if master.enabled %}
 
+{%- if not pillar.kubernetes.pool is defined %}
+
 /etc/default/kubelet:
   file.managed:
   - source: salt://kubernetes/files/kubelet/default.master
@@ -11,6 +13,15 @@
 
 /etc/kubernetes/config:
   file.absent
+
+master_services:
+  service.running:
+  - names: {{ master.services }}
+  - enable: True
+  - watch:
+    - file: /etc/default/kubelet
+
+{%- endif %}
 
 {%- for name,namespace in master.namespace.iteritems() %}
 
@@ -28,12 +39,5 @@
 {%- endif %}
 
 {%- endfor %}
-
-master_services:
-  service.running:
-  - names: {{ master.services }}
-  - enable: True
-  - watch:
-    - file: /etc/default/kubelet
 
 {%- endif %}

@@ -37,8 +37,6 @@
     - dir_mode: 755
     - template: jinja
 
-{% if pillar.get('is_systemd') %}
-
 /etc/calico/network-environment:
   file.managed:
     - source: salt://kubernetes/files/calico/network-environment.pool
@@ -55,17 +53,11 @@
     - user: root
     - group: root
 
-{% endif %}
-
 calico_node:
   service.running:
-    - enable: True
-    - watch:
-      - file: /usr/bin/calicoctl
-{% if pillar.get('is_systemd') %}
-      - file: /etc/systemd/calico-node.service
-{% else %}
-      - file: /etc/init/docker-calico-node.conf
-{% endif %}
+  - names: calico-node
+  - enable: True
+  - watch:
+    - file: /etc/systemd/calico-node.service
 
 {%- endif %}
