@@ -27,9 +27,11 @@ parameters:
         allow_privileged: True
       apiserver:
         address: ${_param:apiserver_address}
-        port: 8080
+        insecure_address: 0.0.0.0
       etcd:
         host: 10.10.6.187
+        registry: quay.io/coreos
+        version: v3.0.1
         token: ca939ec9c2a17b0786f6d411fe019e9b
         name: ${linux:system:name}
         members:

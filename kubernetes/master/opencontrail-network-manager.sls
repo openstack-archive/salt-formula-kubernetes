@@ -20,11 +20,4 @@
     - mode: 644
     - makedirs: true
 
-/etc/kubernetes/namespace-opencontrail.yml:
-  file.managed:
-    - source: salt://kubernetes/files/opencontrail/namespace-opencontrail.yml
-    - user: root
-    - group: root
-    - file_mode: 644
-
 {%- endif %}

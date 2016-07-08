@@ -1,6 +1,6 @@
 {% set common = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['curl', 'git', 'apt-transport-https', 'python-apt', 'nfs-common', 'socat', 'netcat-traditional', 'openssl', 'kubernetes-client', 'kubernetes-node'],
+        'pkgs': ['curl', 'git', 'apt-transport-https', 'python-apt', 'nfs-common', 'socat', 'netcat-traditional', 'openssl', 'kubernetes-client', 'kubernetes-node', 'python-etcd'],
         'services': [],
     },
     'RedHat': {

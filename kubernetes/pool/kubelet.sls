@@ -21,6 +21,33 @@
 /etc/kubernetes/config:
   file.absent
 
+{%- if pool.host.labels is defined %}
+
+{%- for name,label in pool.host.label.iteritems() %}
+
+{%- if label.enabled %}
+
+{{ name }}:
+  k8s.label_present:
+    - name: {{ name }}
+    - value: {{ label.value }}
+    - node: {{ pool.host.name }}
+    - apiserver: http://{{ pool.master.host }}:8080
+
+{%- else %}
+
+{{ name }}:
+  k8s.label_absent:
+    - name: {{ name }}
+    - node: {{ pool.host.name }}
+    - apiserver: http://{{ pool.master.host }}:8080
+
+{%- endif %}
+
+{%- endfor %}
+
+{%- endif %}
+
 pool_services:
   service.running:
   - names: {{ pool.services }}

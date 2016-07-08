@@ -33,14 +33,4 @@
     - makedirs: true
     - dir_mode: 755
 
-/etc/kubernetes/manifests/etcd-events.manifest:
-  file.managed:
-    - source: salt://kubernetes/files/manifest/etcd-events.manifest
-    - template: jinja
-    - user: root
-    - group: root
-    - mode: 644
-    - makedirs: true
-    - dir_mode: 755
-
 {%- endif %}
