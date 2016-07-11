@@ -18,5 +18,5 @@ spec:
     app: {{ service.service }}-{{ service.role }}
 {%- if service.external_ip is defined %}
   externalIPs:
-  - "service.external_ip"
+  - "{{ service.external_ip }}"
 {%- endif -%}
