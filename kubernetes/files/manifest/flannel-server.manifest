@@ -52,7 +52,7 @@
                 "command": [
                     "/bin/sh",
                     "-c",
-                    "/opt/bin/flanneld -listen 0.0.0.0:10253 -etcd-endpoints {% for member in master.etcd.members %}http://{{ member.host }}:4001{% if not loop.last %},{% endif %}{% endfor %} -etcd-prefix /kubernetes.io/network 2>&1 | tee -a /var/log/flannel_server.log"
+                    "/opt/bin/flanneld -listen 0.0.0.0:10253 -etcd-endpoints {% for member in master.etcd.members %}http://{{ member.host }}:4001{% if not loop.last %},{% endif %}{% endfor %} -etcd-prefix /kubernetes.io/network 2>&1 | tee -a /var/log/flannel-server.log"
                 ],
                 "ports": [
                     {

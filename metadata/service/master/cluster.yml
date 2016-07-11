@@ -2,18 +2,8 @@ applications:
 - kubernetes
 classes:
 - service.kubernetes.support
-- system.nginx.server.single
 - service.kubernetes.common
 parameters:
-  nginx:
-    server:
-      site:
-        kubernetes_master:
-          enabled: true
-          type: kubernetes
-          name: master
-          host:
-            name: ${_param:nginx_kubernetes_master_host}
   kubernetes:
     master:
       enabled: true
