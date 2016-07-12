@@ -1,6 +1,5 @@
 kubernetes:
   common:
-    binaries_version: v1.1.1
     network:
       engine: none
   master:
@@ -59,3 +58,6 @@ kubernetes:
       monitoring: hnsj0XqABgrSww7Nqo7UVTSZLJUt2XRd
       scheduler: HY1UUxEPpmjW4a1dDLGIANYQp1nZkLDk
     version: v1.2.4
+    namespace:
+      kube-system:
+        enabled: True

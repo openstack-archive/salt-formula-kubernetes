@@ -39,7 +39,7 @@
 
 calico_node:
   service.running:
-  - names: calico-node
+  - name: calico-node
   - enable: True
   - watch:
     - file: /etc/systemd/calico-node.service
