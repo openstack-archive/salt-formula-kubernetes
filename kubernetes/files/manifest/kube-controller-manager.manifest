@@ -11,11 +11,11 @@ spec:
   terminationGracePeriodSeconds: 30
   containers:
   - name: kube-controller-manager
-    image: {{ master.registry }}/kube-controller-manager:{{ master.version }}
+    image: {{ master.registry }}/kube-master:{{ master.version }}
     command:
     - /bin/sh
     - -c
-    - /usr/local/bin/kube-controller-manager
+    - kube-controller-manager
       --master={{ master.apiserver.insecure_address }}:8080
       --cluster-name=kubernetes
       --service-account-private-key-file=/etc/ssl/private/kubernetes-server.key

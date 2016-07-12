@@ -12,12 +12,12 @@ spec:
   terminationGracePeriodSeconds: 30
   containers:
   - name: kube-scheduler
-    image: {{ master.registry }}/kube-scheduler:{{ master.version }}
+    image: {{ master.registry }}/kube-master:{{ master.version }}
     imagePullPolicy: IfNotPresent
     command:
     - /bin/sh
     - -c
-    - /usr/local/bin/kube-scheduler
+    - kube-scheduler
       --master={{ master.apiserver.insecure_address }}:8080
       --v=2
       --leader-elect=true
