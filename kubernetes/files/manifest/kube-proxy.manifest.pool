@@ -8,7 +8,7 @@ spec:
   hostNetwork: true
   containers:
   - name: kube-proxy
-    image: {{ pool.registry }}/kube-proxy:{{ pool.version }}
+    image: {{ pool.registry }}/kube-pool:{{ pool.version }}
     resources:
       requests:
         cpu: 200m
