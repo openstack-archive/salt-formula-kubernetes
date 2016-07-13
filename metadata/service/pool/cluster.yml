@@ -31,6 +31,6 @@ parameters:
         allow_privileged: True
         frequency: 5s
       token:
-        kubelet: 7bN5hJ9JD4fKjnFTkUKsvVNfuyEddw3r
-        kube_proxy: DFvQ8GelB7afH3wClC9romaMPhquyyEe
+        kubelet: ${_param:kubernetes_kubelet_token}
+        kube_proxy: ${_param:kubernetes_kube-proxy_token}
       ca: kubernetes
