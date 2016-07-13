@@ -11,21 +11,21 @@ parameters:
       registry: tcpcloud
       service_addresses: 10.254.0.0/16
       admin:
-        username: admin
-        password: password
+        username: ${_param:kubernetes_admin_user}
+        password: ${_param:kubernetes_admin_password}
       kubelet:
         allow_privileged: True
       apiserver:
-        address: ${_param:apiserver_address}
+        address: ${_param:single_address}
         insecure_address: 0.0.0.0
       etcd:
-        host: 127.0.0.1
+        host: ${_param:single_address}
         registry: quay.io/coreos
-        version: v3.0.1
-        token: ca939ec9c2a17b0786f6d411fe019e9b
+        version: ${_param:etcd_version}
+        token: ${_param:etcd_initial_token}
         name: ${linux:system:name}
         members:
-          - host: ${_param:apiserver_address}
+          - host: ${_param:single_address}
             name: ${linux:system:name}
       addons:
         dns:
@@ -33,21 +33,13 @@ parameters:
           replicas: 1
           domain: cluster.local
           server: 10.254.0.10
-        ui:
-          enabled: true
-          public_ip: 185.22.97.131
-        heapster_influxdb:
-          enabled: true
-          public_ip: 185.22.97.132
       token:
-        admin: DFvQ8GJ9JD4fKNfuyEddw3rjnFTkUKsv
-        kubelet: 7bN5hJ9JD4fKjnFTkUKsvVNfuyEddw3r
-        kube_proxy: DFvQ8GelB7afH3wClC9romaMPhquyyEe
-        scheduler: HY1UUxEPpmjW4a1dDLGIANYQp1nZkLDk
-        controller_manager: EreGh6AnWf8DxH8cYavB2zS029PUi7vx
-        logging: MJkXKdbgqRmTHSa2ykTaOaMykgO6KcEf
-        monitoring: hnsj0XqABgrSww7Nqo7UVTSZLJUt2XRd
-        dns: RAFeVSE4UvsCz4gk3KYReuOI5jsZ1Xt3
+        admin: ${_param:kubernetes_admin_token}
+        kubelet: ${_param:kubernetes_kubelet_token}
+        kube_proxy: ${_param:kubernetes_kube-proxy_token}
+        scheduler: ${_param:kubernetes_scheduler_token}
+        controller_manager: ${_param:kubernetes_controller-manager_token}
+        dns: ${_param:kubernetes_dns_token}
       ca: kubernetes
       storage:
         engine: none

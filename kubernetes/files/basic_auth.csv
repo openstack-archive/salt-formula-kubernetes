@@ -1,2 +1,2 @@
 {%- from "kubernetes/map.jinja" import master with context %}
-{{ master.admin.username }},{{ master.admin.password }},admin
+{{ master.admin.password }},{{ master.admin.username }},admin
