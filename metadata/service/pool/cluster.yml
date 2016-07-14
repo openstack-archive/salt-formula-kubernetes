@@ -18,12 +18,7 @@ parameters:
             - host: ${_param:cluster_node01_address}
             - host: ${_param:cluster_node02_address}
             - host: ${_param:cluster_node03_address}
-        etcd:
-          members:
-            - host: ${_param:cluster_node01_address}
-            - host: ${_param:cluster_node02_address}
-            - host: ${_param:cluster_node03_address}
-      address: 0.0.0.0
+      address: ${_param:cluster_local_address}
       cluster_dns: 10.254.0.10
       cluster_domain: cluster.local
       kubelet:
@@ -34,3 +29,12 @@ parameters:
         kubelet: ${_param:kubernetes_kubelet_token}
         kube_proxy: ${_param:kubernetes_kube-proxy_token}
       ca: kubernetes
+      network:
+        etcd:
+          members:
+          - host: ${_param:cluster_node01_address}
+            port: 4001
+          - host: ${_param:cluster_node02_address}
+            port: 4001
+          - host: ${_param:cluster_node03_address}
+            port: 4001

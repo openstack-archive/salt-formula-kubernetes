@@ -21,7 +21,7 @@
 /etc/kubernetes/config:
   file.absent
 
-{%- if pool.host.labels is defined %}
+{%- if pool.host.label is defined %}
 
 {%- for name,label in pool.host.label.iteritems() %}
 

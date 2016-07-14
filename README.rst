@@ -154,6 +154,15 @@ On Master:
       master:
         network:
           engine: flannel
+If you don't register master as node:
+          etcd:
+            members:
+              - host: 10.0.175.101
+                port: 4001
+              - host: 10.0.175.102
+                port: 4001
+              - host: 10.0.175.103
+                port: 4001
       common:
         network:
           engine: flannel
@@ -166,6 +175,14 @@ On pools:
       pool:
         network:
           engine: flannel
+          etcd:
+            members:
+              - host: 10.0.175.101
+                port: 4001
+              - host: 10.0.175.102
+                port: 4001
+              - host: 10.0.175.103
+                port: 4001
       common:
         network:
           engine: flannel
@@ -181,6 +198,15 @@ On Master:
       master:
         network:
           engine: calico
+If you don't register master as node:
+          etcd:
+            members:
+              - host: 10.0.175.101
+                port: 4001
+              - host: 10.0.175.102
+                port: 4001
+              - host: 10.0.175.103
+                port: 4001
 
 On pools:
 
@@ -190,6 +216,14 @@ On pools:
       pool:
         network:
           engine: calico
+          etcd:
+            members:
+              - host: 10.0.175.101
+                port: 4001
+              - host: 10.0.175.102
+                port: 4001
+              - host: 10.0.175.103
+                port: 4001
 
 Kubernetes with GlusterFS for storage
 ---------------------------------------------

@@ -13,7 +13,9 @@ include:
 - kubernetes.master.flannel
 {%- endif %}
 {%- if master.network.engine == "calico" %}
+{%- if not pillar.kubernetes.pool is defined %}
 - kubernetes.master.calico
+{%- endif %}
 {%- endif %}
 {%- if master.storage.get('engine', 'none') == 'glusterfs' %}
 - kubernetes.master.glusterfs

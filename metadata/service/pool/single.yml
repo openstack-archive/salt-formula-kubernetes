@@ -31,3 +31,8 @@ parameters:
         kubelet: ${_param:kubernetes_kubelet_token}
         kube_proxy: ${_param:kubernetes_kube-proxy_token}
       ca: kubernetes
+      network:
+        etcd:
+          members:
+            - host: ${_param:master_address}
+              port: 4001

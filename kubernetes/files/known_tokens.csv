@@ -4,6 +4,10 @@
 {{ master.token.kube_proxy }},kube_proxy,kube_proxy
 {{ master.token.scheduler }},system:scheduler,system:scheduler
 {{ master.token.controller_manager }},system:controller_manager,system:controller_manager
+{%- if master.addons.logging is defined %}
 {{ master.token.logging }},system:logging,system:logging
+{%- endif %}
+{%- if master.addons.monitoring is defined %}
 {{ master.token.monitoring }},system:monitoring,system:monitoring
+{%- endif %}
 {{ master.token.dns }},system:dns,system:dns
