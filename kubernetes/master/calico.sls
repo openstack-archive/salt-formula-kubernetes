@@ -1,18 +1,6 @@
 {%- from "kubernetes/map.jinja" import master with context %}
 {%- if master.enabled %}
 
-/etc/kubernetes/manifests/calico-etcd.manifest:
-  file.managed:
-    - source: salt://kubernetes/files/manifest/calico-etcd.manifest
-    - user: root
-    - group: root
-    - mode: 644
-    - makedirs: true
-    - dir_mode: 755
-    - template: jinja
-
-{%- if not pillar.kubernetes.pool is defined %}
-
 /etc/calico/network-environment:
   file.managed:
     - source: salt://kubernetes/files/calico/network-environment.master
@@ -23,7 +11,7 @@
     - dir_mode: 755
     - template: jinja
 
-/etc/systemd/calico-node.service:
+/etc/systemd/system/calico-node.service:
   file.managed:
     - source: salt://kubernetes/files/calico/calico-node.service
     - user: root
@@ -42,8 +30,6 @@ calico_node:
   - name: calico-node
   - enable: True
   - watch:
-    - file: /etc/systemd/calico-node.service
-
-{%- endif %}
+    - file: /etc/systemd/system/calico-node.service
 
 {%- endif %}

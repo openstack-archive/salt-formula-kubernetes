@@ -46,3 +46,8 @@ parameters:
       namespace:
         kube-system:
           enabled: True
+      network:
+        etcd:
+          members:
+            - host: ${_param:single_address}
+              port: 4001

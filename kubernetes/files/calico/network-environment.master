@@ -4,4 +4,4 @@
 DEFAULT_IPV4={{ master.apiserver.address }}
 
 # IP and port of etcd instance used by Calico
-ETCD_AUTHORITY={{ master.apiserver.address }}:6666
+ETCD_ENDPOINTS={% for member in master.network.etcd.members %}http://{{ member.host }}:{{ member.port }}{% if not loop.last %},{% endif %}{% endfor %}

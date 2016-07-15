@@ -50,3 +50,12 @@ parameters:
       namespace:
         kube-system:
           enabled: True
+      network:
+        etcd:
+          members:
+          - host: ${_param:cluster_node01_address}
+            port: 4001
+          - host: ${_param:cluster_node02_address}
+            port: 4001
+          - host: ${_param:cluster_node03_address}
+            port: 4001
