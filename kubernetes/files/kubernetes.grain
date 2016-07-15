@@ -1,0 +1,3 @@
+{%- from "kubernetes/map.jinja" import pool with context -%}
+{%- set service_grains = {'kubernetes': {'service': pool.get('service', {}).get('local', {})}} -%}
+{{ service_grains|yaml(False) }}
