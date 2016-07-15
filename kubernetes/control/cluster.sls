@@ -9,7 +9,7 @@
 
 {%- if service.enabled %}
 
-/srv/kubernetes/services/{{ service_name }}-svc.yml:
+/srv/kubernetes/services/{{ service.cluster }}/{{ service_name }}-svc.yml:
   file.managed:
   - source: salt://kubernetes/files/svc.yml
   - user: root
