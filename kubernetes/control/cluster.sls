@@ -7,7 +7,8 @@
 
 {%- for service_name, service in control.service.iteritems() %}
 
-{%- if service.enabled == true %}
+{%- if service.enabled %}
+
 /srv/kubernetes/services/{{ service_name }}-svc.yml:
   file.managed:
   - source: salt://kubernetes/files/svc.yml
@@ -19,6 +20,7 @@
     - file: /srv/kubernetes
   - defaults:
       service: {{ service|yaml }}
+
 {%- endif %}
 
 /srv/kubernetes/{{ service.cluster }}/{{ service_name }}-{{ service.kind }}.yml:
@@ -32,6 +34,44 @@
     - file: /srv/kubernetes
   - defaults:
       service: {{ service|yaml }}
+
+{%- endfor %}
+
+{%- for node_name, node_grains in salt['mine.get']('*', 'grains.items').iteritems() %}
+
+{%- if node_grains.get('kubernetes', {}).service is defined %}
+
+{%- set service = node_grains.get('kubernetes', {}).get('service', {}) %}
+
+{%- if service.enabled %}
+
+/srv/kubernetes/services/{{ node_name }}-svc.yml:
+  file.managed:
+  - source: salt://kubernetes/files/svc.yml
+  - user: root
+  - group: root
+  - template: jinja
+  - makedirs: true
+  - require:
+    - file: /srv/kubernetes
+  - defaults:
+      service: {{ service|yaml }}
+
+{%- endif %}
+
+/srv/kubernetes/{{ service.cluster }}/{{ node_name }}-{{ service.kind }}.yml:
+  file.managed:
+  - source: salt://kubernetes/files/rc.yml
+  - user: root
+  - group: root
+  - template: jinja
+  - makedirs: true
+  - require:
+    - file: /srv/kubernetes
+  - defaults:
+      service: {{ service|yaml }}
+
+{%- endif %}
 
 {%- endfor %}
 

@@ -16,6 +16,35 @@ Extended on Contrail contribution https://github.com/Juniper/kubernetes/blob/ope
 Sample pillars
 ==============
 
+Containers on pool definitions in pool.service.local
+
+parameters:
+  kubernetes:
+    pool:
+      service:
+        local:
+          enabled: False
+          service: libvirt
+          cluster: openstack-compute
+          namespace: default
+          role: ${linux:system:name}
+          type: LoadBalancer
+          kind: Deployment
+          apiVersion: extensions/v1beta1
+          replicas: 1
+          host_pid: True
+          nodeSelector:
+          - key: openstack
+            value: ${linux:system:name}
+          hostNetwork: True
+          container:
+            libvirt-compute:
+              privileged: True
+              image: ${_param:docker_repository}/libvirt-compute
+              tag: ${_param:openstack_container_tag}
+
+Master definition
+
 .. code-block:: yaml
 
     kubernetes:
@@ -356,7 +385,7 @@ hostPath
         path: /etc/certs
 
 emptyDir
-===========
+========
 
 .. code-block:: yaml
 
