@@ -8,7 +8,8 @@ parameters:
     pool:
       enabled: true
       version: ${_param:kubernetes_version}
-      registry: tcpcloud
+      registry:
+        host: tcpcloud
       host:
         name: ${linux:system:name}
       master:

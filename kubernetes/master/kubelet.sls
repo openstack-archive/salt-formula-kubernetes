@@ -40,4 +40,25 @@ master_services:
 
 {%- endfor %}
 
+{%- if master.registry.secret is defined %}
+
+{%- for name,registry in master.registry.secret.iteritems() %}
+
+{%- if registry.enabled %}
+
+/registry/secrets/{{ registry.namespace }}/{{ name }}:
+  etcd.set:
+    - value: '{"kind":"Secret","apiVersion":"v1","metadata":{"name":"{{ name }}","namespace":"{{ registry.namespace }}"},"data":{".dockerconfigjson":"{{ registry.key }}"},"type":"kubernetes.io/dockerconfigjson"}'
+
+{%- else %}
+
+/registry/secrets/{{ registry.namespace }}/{{ name }}:
+  etcd.rm
+
+{%- endif %}
+
+{%- endfor %}
+
+{%- endif %}
+
 {%- endif %}

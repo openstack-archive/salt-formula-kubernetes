@@ -8,7 +8,8 @@ parameters:
     master:
       enabled: true
       version: ${_param:kubernetes_version}
-      registry: tcpcloud
+      registry:
+        host: tcpcloud
       service_addresses: 10.254.0.0/16
       admin:
         username: ${_param:kubernetes_admin_user}

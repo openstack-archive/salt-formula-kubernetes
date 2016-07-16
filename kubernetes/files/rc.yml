@@ -118,3 +118,7 @@ spec:
         {{ selector.key }}: {{ selector.value }}
         {%- endfor %}
       {%- endif %}
+      {%- if service.image_pull_secretes is defined %}
+      imagePullSecrets:
+        - name: {{ service.image_pull_secretes }}
+      {%- endif %}

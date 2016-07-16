@@ -11,7 +11,7 @@ spec:
   terminationGracePeriodSeconds: 30
   containers:
   - name: kube-apiserver
-    image: {{ master.registry }}/kube-master:{{ master.version }}
+    image: {{ master.registry.host }}/kube-master:{{ master.version }}
     command:
     - /bin/sh
     - -c

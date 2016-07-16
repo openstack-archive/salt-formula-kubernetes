@@ -314,6 +314,29 @@ Create namespace:
           name: ${linux:system:name}
          ...
 
+Pull images from private registries
+-----------------------------------
+
+.. code-block:: yaml
+
+    kubernetes:
+      master
+        ...
+        registry:
+          secret:
+            registry01:
+              enabled: True
+              key: (get from `cat /root/.docker/config.json | base64`)
+              namespace: default
+         ...
+      control:
+        ...
+        service:
+          service01:
+          ...
+          image_pull_secretes: registry01
+          ...
+
 Kubernetes Service Definitions in pillars
 ==========================================
 
