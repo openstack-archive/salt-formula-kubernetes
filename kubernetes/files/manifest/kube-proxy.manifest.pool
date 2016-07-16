@@ -19,8 +19,8 @@ spec:
       --logtostderr=true
       --v=2
       --kubeconfig=/etc/kubernetes/proxy.kubeconfig
-      --master=https://{{ pool.master.host }}
-      {%- if pool.network.engine == 'calico' %}--proxy-mode=iptables{% endif %}
+      --master={%- if pool.apiserver.insecure.enabled %}http://{{ pool.apiserver.host }}:8080{%- else %}https://{{ pool.apiserver.host }}{%- endif %}
+      {%- if pool.network.engine == 'calico' %} --proxy-mode=iptables{% endif %}
       1>>/var/log/kube-proxy.log 2>&1
     securityContext:
       privileged: true

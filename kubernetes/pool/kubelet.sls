@@ -32,7 +32,7 @@
     - name: {{ name }}
     - value: {{ label.value }}
     - node: {{ pool.host.name }}
-    - apiserver: http://{{ pool.master.host }}:8080
+    - apiserver: http://{{ pool.apiserver.host }}:8080
 
 {%- else %}
 
@@ -40,7 +40,7 @@
   k8s.label_absent:
     - name: {{ name }}
     - node: {{ pool.host.name }}
-    - apiserver: http://{{ pool.master.host }}:8080
+    - apiserver: http://{{ pool.apiserver.host }}:8080
 
 {%- endif %}
 
