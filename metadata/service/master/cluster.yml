@@ -18,7 +18,7 @@ parameters:
         allow_privileged: True
       apiserver:
         address: ${_param:cluster_local_address}
-        insecure_address: 0.0.0.0
+        insecure_address: ${_param:cluster_local_address}
       etcd:
         host: ${_param:cluster_local_address}
         registry: quay.io/coreos
