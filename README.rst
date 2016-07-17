@@ -18,30 +18,32 @@ Sample pillars
 
 Containers on pool definitions in pool.service.local
 
-parameters:
-  kubernetes:
-    pool:
-      service:
-        local:
-          enabled: False
-          service: libvirt
-          cluster: openstack-compute
-          namespace: default
-          role: ${linux:system:name}
-          type: LoadBalancer
-          kind: Deployment
-          apiVersion: extensions/v1beta1
-          replicas: 1
-          host_pid: True
-          nodeSelector:
-          - key: openstack
-            value: ${linux:system:name}
-          hostNetwork: True
-          container:
-            libvirt-compute:
-              privileged: True
-              image: ${_param:docker_repository}/libvirt-compute
-              tag: ${_param:openstack_container_tag}
+.. code-block:: yaml
+
+    parameters:
+      kubernetes:
+        pool:
+          service:
+            local:
+              enabled: False
+              service: libvirt
+              cluster: openstack-compute
+              namespace: default
+              role: ${linux:system:name}
+              type: LoadBalancer
+              kind: Deployment
+              apiVersion: extensions/v1beta1
+              replicas: 1
+              host_pid: True
+              nodeSelector:
+              - key: openstack
+                value: ${linux:system:name}
+              hostNetwork: True
+              container:
+                libvirt-compute:
+                  privileged: True
+                  image: ${_param:docker_repository}/libvirt-compute
+                  tag: ${_param:openstack_container_tag}
 
 Master definition
 
@@ -183,7 +185,7 @@ On Master:
       master:
         network:
           engine: flannel
-If you don't register master as node:
+    # If you don't register master as node:
           etcd:
             members:
               - host: 10.0.175.101
@@ -227,7 +229,7 @@ On Master:
       master:
         network:
           engine: calico
-If you don't register master as node:
+    # If you don't register master as node:
           etcd:
             members:
               - host: 10.0.175.101
@@ -253,6 +255,19 @@ On pools:
                 port: 4001
               - host: 10.0.175.103
                 port: 4001
+
+Post deployment configuration
+
+.. code-block:: bash
+    # set ETCD
+    export ETCD_AUTHORITY=10.0.111.201:4001
+
+    # Set NAT for pods subnet
+    calicoctl pool add 192.168.0.0/16 --nat-outgoing
+
+    # Status commands
+    calicoctl status
+    calicoctl node show
 
 Kubernetes with GlusterFS for storage
 ---------------------------------------------
