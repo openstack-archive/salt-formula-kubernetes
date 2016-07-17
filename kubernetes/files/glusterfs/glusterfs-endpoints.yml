@@ -3,10 +3,10 @@ apiVersion: v1
 kind: Endpoints
 metadata:
   name: glusterfs-cluster
-subnets:
+subsets:
   {%- for member in master.storage.members %}
-  addresses:
-    ip: {{ member.host }}
-    ports: 
-      port: {{ member.port }}
+- addresses:
+  - ip: {{ member.host }}
+  ports: 
+  - port: {{ member.port }}
   {%- endfor %}

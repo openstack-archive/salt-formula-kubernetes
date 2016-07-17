@@ -5,4 +5,4 @@ metadata:
   name: glusterfs-cluster
 spec:
   ports:
-    port: {{ master.storage.port }}
+  - port: {{ master.storage.port }}
