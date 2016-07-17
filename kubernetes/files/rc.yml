@@ -12,6 +12,10 @@ spec:
     metadata:
       labels:
         app: {{ service.service }}-{{ service.role }}
+      {%- if service.hostname is defined %}
+      annotations:
+        pod.beta.kubernetes.io/hostname: {{ service.hostname }}
+      {%- endif %}
     spec:
       {%- if service.hostNetwork is defined %}
       hostNetwork: True
