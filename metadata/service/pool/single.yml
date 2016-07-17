@@ -12,14 +12,12 @@ parameters:
         host: tcpcloud
       host:
         name: ${linux:system:name}
-      master:
+      apiserver:
         host: ${_param:master_address}
-        apiserver:
-          members:
-            - host: ${_param:master_address}
-        etcd:
-          members:
-            - host: ${_param:master_address}
+        insecure:
+          enabled: True
+        members:
+          - host: ${_param:master_address}
       address: 0.0.0.0
       cluster_dns: 10.254.0.10
       allow_privileged: True
