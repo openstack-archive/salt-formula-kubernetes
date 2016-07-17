@@ -17,9 +17,11 @@ parameters:
         insecure:
           enabled: True
         members:
-          - host: ${_param:cluster_node01_address}
-          - host: ${_param:cluster_node02_address}
-          - host: ${_param:cluster_node03_address}
+           - host: ${_param:cluster_vip_address}
+# Temporary disabled until kubelet HA would be fixed
+#          - host: ${_param:cluster_node01_address}
+#          - host: ${_param:cluster_node02_address}
+#          - host: ${_param:cluster_node03_address}
       address: ${_param:cluster_local_address}
       cluster_dns: 10.254.0.10
       cluster_domain: cluster.local
