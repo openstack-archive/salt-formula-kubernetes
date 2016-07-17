@@ -259,6 +259,7 @@ On pools:
 Post deployment configuration
 
 .. code-block:: bash
+
     # set ETCD
     export ETCD_AUTHORITY=10.0.111.201:4001
 
