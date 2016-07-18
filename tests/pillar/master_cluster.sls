@@ -18,6 +18,8 @@ kubernetes:
     admin:
       password: password
       username: admin
+    registry:
+        host: tcpcloud
     apiserver:
       address: 10.0.175.100
       port: 8080
