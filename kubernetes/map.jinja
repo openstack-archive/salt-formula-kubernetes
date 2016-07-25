@@ -12,7 +12,7 @@
 {% set master = salt['grains.filter_by']({
     'Debian': {
         'pkgs': ['kubernetes-master'],
-        'services': ['kubelet'],
+        'services': ['kube-apiserver','kube-scheduler','kube-controller-manager'],
     },
     'RedHat': {
         'pkgs': [],
@@ -23,7 +23,7 @@
 {% set pool = salt['grains.filter_by']({
     'Debian': {
         'pkgs': [],
-        'services': ['kubelet'],
+        'services': ['kube-proxy'],
     },
     'RedHat': {
         'pkgs': [],
