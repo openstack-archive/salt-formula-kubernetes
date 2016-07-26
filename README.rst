@@ -174,6 +174,22 @@ On pools:
         network:
           engine: opencontrail
 
+Kubernetes control plane running in systemd
+-------------------------------------------
+
+By default kube-apiserver, kube-scheduler, kube-controllermanager, kube-proxy, etcd running in docker containers through manifests. For stable production environment this should be run in systemd. 
+
+.. code-block:: yaml
+
+    kubernetes:
+      master:
+        container: false
+
+    kubernetes:
+      pool:
+        container: false
+
+
 Kubernetes with Flannel
 -----------------------
 

@@ -48,9 +48,9 @@
 
 {%- endif %}
 
-pool_services:
+kubelet_service:
   service.running:
-  - names: {{ pool.services }}
+  - name: kubelet
   - enable: True
   - watch:
     - file: /etc/default/kubelet

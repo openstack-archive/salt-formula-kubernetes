@@ -2,9 +2,6 @@
 include:
 - kubernetes.master.service
 - kubernetes.master.etcd
-- kubernetes.master.api
-- kubernetes.master.controller-manager
-- kubernetes.master.scheduler
 - kubernetes.master.kube-addons
 {%- if master.network.engine == "opencontrail" %}
 - kubernetes.master.opencontrail-network-manager
@@ -20,4 +17,4 @@ include:
 {%- if master.storage.get('engine', 'none') == 'glusterfs' %}
 - kubernetes.master.glusterfs
 {%- endif %}
-- kubernetes.master.kubelet
+- kubernetes.master.controller
