@@ -189,6 +189,36 @@ By default kube-apiserver, kube-scheduler, kube-controllermanager, kube-proxy, e
       pool:
         container: false
 
+Because k8s services run under kube user without root privileges, there is need to change secure port for apiserver.
+
+.. code-block:: yaml
+
+    kubernetes:
+      master:
+        apiserver:
+          secure_port: 8081
+
+Other k8s services which communicates with secure api still communicate with 443 port. You can you proxy or iptables formula.
+
+.. code-block:: yaml
+
+    iptables:
+      _support:
+        sensu:
+          enabled: false
+        sphinx:
+          enabled: false
+      service:
+        enabled: true
+        chain:
+          PREROUTING:
+            rules:
+              - table: nat
+                chain: PREROUTING
+                destination_port: 443
+                jump: REDIRECT
+                to_port: 8081
+                protocol: tcp
 
 Kubernetes with Flannel
 -----------------------
