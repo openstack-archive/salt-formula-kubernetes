@@ -20,10 +20,10 @@ spec:
       --etcd-servers={% for member in master.etcd.members %}http://{{ member.host }}:4001{% if not loop.last %},{% endif %}{% endfor %}
       --admission-control=NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota
       --service-cluster-ip-range={{ master.service_addresses }}
-      --client-ca-file=/etc/ssl/certs/ca-{{ master.ca }}.crt
+      --client-ca-file=/etc/kubernetes/ssl/ca-{{ master.ca }}.crt
       --basic-auth-file=/srv/kubernetes/basic_auth.csv
-      --tls-cert-file=/etc/ssl/certs/kubernetes-server.crt
-      --tls-private-key-file=/etc/ssl/private/kubernetes-server.key
+      --tls-cert-file=/etc/kubernetes/ssl/kubernetes-server.crt
+      --tls-private-key-file=/etc/kubernetes/ssl/kubernetes-server.key
       --secure-port=443
       --bind-address={{ master.apiserver.address }}
       --token-auth-file=/srv/kubernetes/known_tokens.csv
@@ -57,7 +57,7 @@ spec:
       readOnly: true
     - mountPath: /var/log/kube-apiserver.log
       name: logfile
-    - mountPath: /etc/ssl
+    - mountPath: /etc/kubernetes/ssl
       name: etcssl
       readOnly: true
     - mountPath: /usr/share/ca-certificates
@@ -73,7 +73,7 @@ spec:
       path: /var/log/kube-apiserver.log
     name: logfile
   - hostPath:
-      path: /etc/ssl
+      path: /etc/kubernetes/ssl
     name: etcssl
   - hostPath:
       path: /usr/share/ca-certificates

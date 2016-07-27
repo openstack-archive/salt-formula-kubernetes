@@ -76,14 +76,14 @@
     - user: root
     - group: root
     - mode: 644
-    - contents: DAEMON_ARGS=" --insecure-bind-address={{ master.apiserver.insecure_address }} --etcd-servers={% for member in master.etcd.members %}http://{{ member.host }}:4001{% if not loop.last %},{% endif %}{% endfor %} --admission-control=NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota --service-cluster-ip-range={{ master.service_addresses }} --client-ca-file=/etc/ssl/certs/ca-{{ master.ca }}.crt --basic-auth-file=/srv/kubernetes/basic_auth.csv --tls-cert-file=/etc/ssl/certs/kubernetes-server.crt --tls-private-key-file=/etc/ssl/private/kubernetes-server.key --secure-port=443 --bind-address={{ master.apiserver.address }} --token-auth-file=/srv/kubernetes/known_tokens.csv --v=2 --allow-privileged=True"
+    - contents: DAEMON_ARGS=" --insecure-bind-address={{ master.apiserver.insecure_address }} --etcd-servers={% for member in master.etcd.members %}http://{{ member.host }}:4001{% if not loop.last %},{% endif %}{% endfor %} --admission-control=NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota --service-cluster-ip-range={{ master.service_addresses }} --client-ca-file=/etc/kubernetes/ssl/ca-{{ master.ca }}.crt --basic-auth-file=/srv/kubernetes/basic_auth.csv --tls-cert-file=/etc/kubernetes/ssl/kubernetes-server.crt --tls-private-key-file=/etc/kubernetes/ssl/kubernetes-server.key --secure-port=443 --bind-address={{ master.apiserver.address }} --token-auth-file=/srv/kubernetes/known_tokens.csv --v=2 --allow-privileged=True"
 
 /etc/default/kube-controller-manager:
   file.managed:
     - user: root
     - group: root
     - mode: 644
-    - contents: DAEMON_ARGS=" --master={{ master.apiserver.insecure_address }}:8080 --cluster-name=kubernetes --service-account-private-key-file=/etc/ssl/private/kubernetes-server.key --v=2 --root-ca-file=/etc/ssl/certs/ca-{{ master.ca }}.crt --leader-elect=true"
+    - contents: DAEMON_ARGS=" --master={{ master.apiserver.insecure_address }}:8080 --cluster-name=kubernetes --service-account-private-key-file=/etc/kubernetes/ssl/kubernetes-server.key --v=2 --root-ca-file=/etc/kubernetes/ssl/ca-{{ master.ca }}.crt --leader-elect=true"
 
 /etc/default/kube-scheduler:
   file.managed:

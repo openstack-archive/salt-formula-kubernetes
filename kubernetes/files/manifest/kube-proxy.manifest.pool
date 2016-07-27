@@ -25,7 +25,7 @@ spec:
     securityContext:
       privileged: true
     volumeMounts:
-    - mountPath: /etc/ssl/certs
+    - mountPath: /etc/kuberbetes/ssl
       name: ssl-certs-host
       readOnly: true
     - mountPath: /var/log
@@ -39,7 +39,7 @@ spec:
       readOnly: false
   volumes:
   - hostPath:
-      path: /etc/ssl/certs
+      path: /etc/kubernetes/ssl
     name: ssl-certs-host
   - hostPath:
       path: /etc/kubernetes/proxy.kubeconfig
