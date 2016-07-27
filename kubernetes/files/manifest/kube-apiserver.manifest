@@ -24,7 +24,7 @@ spec:
       --basic-auth-file=/srv/kubernetes/basic_auth.csv
       --tls-cert-file=/etc/kubernetes/ssl/kubernetes-server.crt
       --tls-private-key-file=/etc/kubernetes/ssl/kubernetes-server.key
-      --secure-port=443
+      --secure-port={{ master.apiserver.get('secure_port', '443') }}
       --bind-address={{ master.apiserver.address }}
       --token-auth-file=/srv/kubernetes/known_tokens.csv
       --v=2
@@ -40,8 +40,8 @@ spec:
       initialDelaySeconds: 15
       timeoutSeconds: 15
     ports:
-    - containerPort: 443
-      hostPort: 443
+    - containerPort: {{ master.apiserver.get('secure_port', '443') }}
+      hostPort: {{ master.apiserver.get('secure_port', '443') }}
       name: https
       protocol: TCP
     - containerPort: 8080
