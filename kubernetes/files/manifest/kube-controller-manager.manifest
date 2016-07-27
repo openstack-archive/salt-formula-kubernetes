@@ -18,9 +18,9 @@ spec:
     - kube-controller-manager
       --master={{ master.apiserver.insecure_address }}:8080
       --cluster-name=kubernetes
-      --service-account-private-key-file=/etc/ssl/private/kubernetes-server.key
+      --service-account-private-key-file=/etc/kubernetes/ssl/kubernetes-server.key
       --v=2
-      --root-ca-file=/etc/ssl/certs/ca-{{ master.ca }}.crt
+      --root-ca-file=/etc/kubernetes/ssl/ca-{{ master.ca }}.crt
       --leader-elect=true
       1>>/var/log/kube-controller-manager.log 2>&1
     imagePullPolicy: IfNotPresent
@@ -43,7 +43,7 @@ spec:
       readOnly: true
     - mountPath: /var/log/kube-controller-manager.log
       name: logfile
-    - mountPath: /etc/ssl
+    - mountPath: /etc/kubernetes/ssl
       name: etcssl
       readOnly: true
     - mountPath: /usr/share/ca-certificates
@@ -57,7 +57,7 @@ spec:
       path: /var/log/kube-controller-manager.log
     name: logfile
   - hostPath:
-      path: /etc/ssl
+      path: /etc/kubernetes/ssl
     name: etcssl
   - hostPath:
       path: /usr/share/ca-certificates
