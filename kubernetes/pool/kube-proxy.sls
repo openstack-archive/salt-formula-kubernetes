@@ -29,7 +29,7 @@
     - user: root
     - group: root
     - mode: 644
-    - contents: DAEMON_ARGS=" --logtostderr=true --v=2 --kubeconfig=/etc/kubernetes/proxy.kubeconfig --master={%- if pool.apiserver.insecure.enabled %}http://{{ pool.apiserver.host }}:8080{%- else %}https://{{ pool.apiserver.host }}{%- endif %}{%- if pool.network.engine == 'calico' %} --proxy-mode=iptables{% endif %}
+    - contents: DAEMON_ARGS=" --logtostderr=true --v=2 --kubeconfig=/etc/kubernetes/proxy.kubeconfig --master={%- if pool.apiserver.insecure.enabled %}http://{{ pool.apiserver.host }}:8080{%- else %}https://{{ pool.apiserver.host }}{%- endif %}{%- if pool.network.engine == 'calico' %} --proxy-mode=iptables{% endif %}"
 
 pool_services:
   service.running:
