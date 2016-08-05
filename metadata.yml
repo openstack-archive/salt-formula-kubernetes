@@ -1,6 +1,6 @@
 name: "kubernetes"
-version: "0.2"
-source: "https://github.com/tcpcloud/salt-formula-kubernetes"
+version: "2016.4.1"
+source: "https://github.com/openstack/salt-formula-nova"
 dependencies:
 - name: linux
   source: "https://github.com/tcpcloud/salt-formula-linux"
