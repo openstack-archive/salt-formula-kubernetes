@@ -1,0 +1,8 @@
+Code-Review+2: Filip Pytloun <filip@pytloun.cz>
+Workflow+1: Filip Pytloun <filip@pytloun.cz>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Sat, 06 Aug 2016 08:10:01 +0000
+Reviewed-on: https://review.openstack.org/351613
+Project: openstack/salt-formula-kubernetes
+Branch: refs/heads/master
