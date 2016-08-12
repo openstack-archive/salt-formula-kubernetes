@@ -1,0 +1,8 @@
+Code-Review+2: Jakub Pavlik <pavlk.jakub@gmail.com>
+Workflow+1: Jakub Pavlik <pavlk.jakub@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Fri, 12 Aug 2016 12:24:23 +0000
+Reviewed-on: https://review.openstack.org/354691
+Project: openstack/salt-formula-kubernetes
+Branch: refs/heads/master
