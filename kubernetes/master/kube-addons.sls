@@ -155,18 +155,4 @@ addon-dir-create:
 
 {% endif %}
 
-/etc/kubernetes/kube-addons.sh:
-  file.managed:
-    - source: salt://kubernetes/files/kube-addons/kube-addons.sh
-    - user: root
-    - group: root
-    - mode: 755
-
-/etc/kubernetes/kube-addon-update.sh:
-  file.managed:
-    - source: salt://kubernetes/files/kube-addons/kube-addon-update.sh
-    - user: root
-    - group: root
-    - mode: 755
-
 {% endif %}
