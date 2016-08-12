@@ -461,7 +461,7 @@ emptyDir
         type: emptyDir
 
 Documentation and Bugs
-============================
+======================
 
 To learn how to deploy OpenStack Salt, consult the documentation available
 online at:
@@ -485,3 +485,9 @@ repository at:
 Developers should also join the discussion on the IRC list, at:
 
     https://wiki.openstack.org/wiki/Meetings/openstack-salt
+
+Copyright and authors
+=====================
+
+(c) 2016 tcp cloud a.s.
+(c) 2016 OpenStack Foundation
