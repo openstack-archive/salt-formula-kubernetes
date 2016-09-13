@@ -92,6 +92,30 @@
     - mode: 644
     - contents: DAEMON_ARGS=" --master={{ master.apiserver.insecure_address }}:8080 --v=2 --leader-elect=true"
 
+/etc/systemd/system/kube-apiserver.service:
+  file.managed:
+  - source: salt://kubernetes/files/systemd/kube-apiserver.service
+  - template: jinja
+  - user: root
+  - group: root
+  - mode: 644
+
+/etc/systemd/system/kube-scheduler.service:
+  file.managed:
+  - source: salt://kubernetes/files/systemd/kube-scheduler.service
+  - template: jinja
+  - user: root
+  - group: root
+  - mode: 644
+
+/etc/systemd/system/kube-controller-manager.service:
+  file.managed:
+  - source: salt://kubernetes/files/systemd/kube-controller-manager.service
+  - template: jinja
+  - user: root
+  - group: root
+  - mode: 644
+
 master_services:
   service.running:
   - names: {{ master.services }}
@@ -105,9 +129,18 @@ master_services:
 
 {%- if not pillar.kubernetes.pool is defined %}
 
-/etc/default/kubelet:
+/usr/bin/hyperkube:
   file.managed:
-  - source: salt://kubernetes/files/kubelet/default.master
+     - source: {{ master.hyperkube.get('source', 'http://apt.tcpcloud.eu/kubernetes/bin/') }}{{ master.version }}/hyperkube
+     - source_hash: md5={{ master.hyperkube.hash }}
+     - mode: 751
+     - makedirs: true
+     - user: root
+     - group: root
+
+/etc/systemd/system/kubelet.service:
+  file.managed:
+  - source: salt://kubernetes/files/systemd/kubelet.service
   - template: jinja
   - user: root
   - group: root
@@ -115,6 +148,14 @@ master_services:
 
 /etc/kubernetes/config:
   file.absent
+
+/etc/default/kubelet:
+  file.managed:
+  - source: salt://kubernetes/files/kubelet/default.master
+  - template: jinja
+  - user: root
+  - group: root
+  - mode: 644
 
 kubelet_service:
   service.running:

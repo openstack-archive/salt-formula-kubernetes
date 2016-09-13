@@ -21,10 +21,6 @@
 
 {%- else %}
 
-etcd_pkg:
-  pkg.installed:
-  - name: etcd
-
 /etc/default/etcd:
   file.managed:
     - source: salt://kubernetes/files/etcd/default
@@ -32,6 +28,10 @@ etcd_pkg:
     - user: root
     - group: root
     - mode: 644
+
+etcd_pkg:
+  pkg.installed:
+  - name: etcd
 
 etcd_service:
   service.running:

@@ -44,3 +44,5 @@ kubernetes:
           port: 4001
         - host: 127.0.0.1
           port: 4001
+    hyperkube:
+      hash: hnsj0XqABgrSww7Nqo7UVTSZLJUt2XRd

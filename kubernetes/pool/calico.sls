@@ -3,7 +3,7 @@
 
 /usr/bin/calicoctl:
   file.managed:
-     - source: https://github.com/projectcalico/calico-containers/releases/download/{{ pool.network.version }}/calicoctl
+     - source: {{ pool.network.get('source', 'https://github.com/projectcalico/calico-containers/releases/download/') }}{{ pool.network.version }}/calicoctl
      - source_hash: md5={{ pool.network.hash }}
      - mode: 751
      - user: root
@@ -11,7 +11,7 @@
 
 /opt/cni/bin/calico:
   file.managed:
-     - source: https://github.com/projectcalico/calico-cni/releases/download/{{ pool.network.cni.version }}/calico
+     - source: {{ pool.network.cni.get('source', 'https://github.com/projectcalico/calico-cni/releases/download/') }}{{ pool.network.cni.version }}/calico
      - source_hash: md5={{ pool.network.cni.hash }}
      - mode: 751
      - makedirs: true
@@ -20,7 +20,7 @@
 
 /opt/cni/bin/calico-ipam:
   file.managed:
-     - source: https://github.com/projectcalico/calico-cni/releases/download/{{ pool.network.ipam.version }}/calico-ipam
+     - source: {{ pool.network.ipam.get('source', 'https://github.com/projectcalico/calico-cni/releases/download/') }}{{ pool.network.ipam.version }}/calico-ipam
      - source_hash: md5={{ pool.network.ipam.hash }}
      - mode: 751
      - makedirs: true
@@ -47,17 +47,17 @@
     - dir_mode: 755
     - template: jinja
 
-/etc/systemd/system/calico-node.service:
-  file.managed:
-    - source: salt://kubernetes/files/calico/calico-node.service
-    - user: root
-    - group: root
+# /etc/systemd/system/calico-node.service:
+#   file.managed:
+#     - source: salt://kubernetes/files/calico/calico-node.service
+#     - user: root
+#     - group: root
 
-calico_node:
-  service.running:
-  - name: calico-node
-  - enable: True
-  - watch:
-    - file: /etc/systemd/system/calico-node.service
+# calico_node:
+#   service.running:
+#   - name: calico-node
+#   - enable: True
+#   - watch:
+#     - file: /etc/systemd/system/calico-node.service
 
 {%- endif %}

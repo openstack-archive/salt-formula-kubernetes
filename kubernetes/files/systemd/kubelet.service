@@ -1,0 +1,30 @@
+[Unit]
+Description=Kubernetes Kubelet Server
+Documentation=https://github.com/kubernetes/kubernetes
+Documentation=man:kubelet
+After=network.target
+After=docker.service
+Requires=docker.service
+Conflicts=cadvisor.service
+
+[Service]
+EnvironmentFile=-/etc/kubernetes/config
+EnvironmentFile=-/etc/default/%p
+User=root
+ExecStart=/usr/bin/hyperkube \
+    kubelet \
+    $KUBE_LOGTOSTDERR \
+    $KUBE_LOG_LEVEL \
+    $KUBE_ALLOW_PRIV \
+        $KUBELET_ADDRESS \
+        $KUBELET_PORT \
+        $KUBELET_HOSTNAME \
+        $KUBELET_API_SERVER \
+        $DOCKER_ENDPOINT \
+        $CADVISOR_PORT \
+        $DAEMON_ARGS
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+Alias=cadvisor.service

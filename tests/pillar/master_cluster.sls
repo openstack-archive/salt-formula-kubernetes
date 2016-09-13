@@ -63,3 +63,5 @@ kubernetes:
     namespace:
       kube-system:
         enabled: True
+    hyperkube:
+      hash: hnsj0XqABgrSww7Nqo7UVTSZLJUt2XRd

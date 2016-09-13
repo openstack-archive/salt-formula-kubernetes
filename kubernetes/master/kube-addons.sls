@@ -82,6 +82,13 @@ addon-dir-create:
     - dir_mode: 755
     - makedirs: True
 
+create_dashboard:
+  cmd.run:
+  - name: hyperkube kubectl create -f /etc/kubernetes/addons/dashboard/
+  - unless: hyperkube kubectl describe rc kubernetes-dashboard-v1.1.0 --namespace=kube-system
+  - require:
+    - service: kubelet
+
 {%- if master.network.engine == "opencontrail" %}
 
 /etc/kubernetes/addons/dashboard/dashboard-address.yaml:
