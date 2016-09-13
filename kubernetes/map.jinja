@@ -1,6 +1,6 @@
 {% set common = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['curl', 'git', 'apt-transport-https', 'python-apt', 'nfs-common', 'socat', 'netcat-traditional', 'openssl', 'kubernetes-client', 'kubernetes-node', 'python-etcd'],
+        'pkgs': ['curl', 'git', 'apt-transport-https', 'python-apt', 'nfs-common', 'socat', 'netcat-traditional', 'openssl', 'python-etcd'],
         'services': [],
     },
     'RedHat': {
@@ -11,7 +11,7 @@
 
 {% set master = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['kubernetes-master'],
+        'pkgs': [],
         'services': ['kube-apiserver','kube-scheduler','kube-controller-manager'],
     },
     'RedHat': {

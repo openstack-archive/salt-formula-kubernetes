@@ -5,8 +5,4 @@
 include:
 - kubernetes._common
 
-kubernetes_master_pkgs:
-  pkg.installed:
-  - names: {{ master.pkgs }}
-
 {%- endif %}

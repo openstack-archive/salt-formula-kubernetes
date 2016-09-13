@@ -1,0 +1,21 @@
+[Unit]
+Description=Kubernetes Controller Manager
+Documentation=https://github.com/kubernetes/kubernetes
+Documentation=man:kube-controller-manager
+After=network.target
+
+[Service]
+Environment=KUBE_MASTER=--master=127.0.0.1:8080
+EnvironmentFile=-/etc/kubernetes/config
+EnvironmentFile=-/etc/default/%p
+User=root
+ExecStart=/usr/bin/hyperkube \
+    controller-manager \
+    $KUBE_LOGTOSTDERR \
+    $KUBE_LOG_LEVEL \
+        $DAEMON_ARGS
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

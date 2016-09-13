@@ -8,14 +8,13 @@ spec:
   hostNetwork: true
   containers:
   - name: kube-proxy
-    image: {{ pool.registry.host }}/kube-pool:{{ pool.version }}
+    image: {{ pool.registry.host }}/hyperkube:{{ pool.version }}
     resources:
       requests:
         cpu: 200m
     command:
-    - /bin/sh
-    - -c
-    - kube-proxy
+    - /hyperkube
+    - proxy
       --logtostderr=true
       --v=2
       --kubeconfig=/etc/kubernetes/proxy.kubeconfig

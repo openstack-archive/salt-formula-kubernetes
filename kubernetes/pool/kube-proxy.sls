@@ -13,6 +13,8 @@
     - makedirs: true
     - dir_mode: 755
 
+{%- else %}
+
 /etc/kubernetes/proxy.kubeconfig:
   file.managed:
     - source: salt://kubernetes/files/kube-proxy/proxy.kubeconfig
@@ -22,7 +24,13 @@
     - mode: 644
     - makedirs: true
 
-{%- else %}
+/etc/systemd/system/kube-proxy.service:
+  file.managed:
+  - source: salt://kubernetes/files/systemd/kube-proxy.service
+  - template: jinja
+  - user: root
+  - group: root
+  - mode: 644
 
 /etc/default/kube-proxy:
   file.managed:

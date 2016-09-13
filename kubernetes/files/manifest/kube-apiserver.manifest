@@ -11,11 +11,10 @@ spec:
   terminationGracePeriodSeconds: 30
   containers:
   - name: kube-apiserver
-    image: {{ master.registry.host }}/kube-master:{{ master.version }}
+    image: {{ master.registry.host }}/hyperkube:{{ master.version }}
     command:
-    - /bin/sh
-    - -c
-    - kube-apiserver
+    - /hyperkube
+    - apiserver
       --insecure-bind-address={{ master.apiserver.insecure_address }}
       --etcd-servers={% for member in master.etcd.members %}http://{{ member.host }}:4001{% if not loop.last %},{% endif %}{% endfor %}
       --admission-control=NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota

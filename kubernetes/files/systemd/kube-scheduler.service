@@ -1,0 +1,22 @@
+[Unit]
+Description=Kubernetes Scheduler Plugin
+Documentation=https://github.com/kubernetes/kubernetes
+Documentation=man:kube-scheduler
+After=network.target
+
+[Service]
+Environment=KUBE_MASTER=--master=127.0.0.1:8080
+EnvironmentFile=-/etc/kubernetes/config
+EnvironmentFile=-/etc/default/%p
+User=root
+ExecStart=/usr/bin/hyperkube \
+    scheduler \
+    $KUBE_LOGTOSTDERR \
+    $KUBE_LOG_LEVEL \
+    $KUBE_MASTER \
+        $DAEMON_ARGS
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
