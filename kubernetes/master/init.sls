@@ -1,7 +1,6 @@
 {%- from "kubernetes/map.jinja" import master with context %}
 include:
 - kubernetes.master.service
-- kubernetes.master.etcd
 - kubernetes.master.kube-addons
 {%- if master.network.engine == "opencontrail" %}
 - kubernetes.master.opencontrail-network-manager

@@ -20,11 +20,6 @@ parameters:
         address: ${_param:single_address}
         insecure_address: 0.0.0.0
       etcd:
-        host: ${_param:single_address}
-        registry: quay.io/coreos
-        version: ${_param:etcd_version}
-        token: ${_param:etcd_initial_token}
-        name: ${linux:system:name}
         members:
           - host: ${_param:single_address}
             name: ${linux:system:name}
