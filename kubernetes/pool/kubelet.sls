@@ -50,7 +50,7 @@
 
 /usr/bin/hyperkube:
   file.managed:
-     - source: {{ pool.hyperkube.get('source', 'http://apt.tcpcloud.eu/kubernetes/bin/') }}{{ pool.version }}/hyperkube
+     - source: {{ pool.hyperkube.get('source', {}).get('url', 'http://apt.tcpcloud.eu/kubernetes/bin/') }}{{ pool.version }}/hyperkube
      - source_hash: md5={{ pool.hyperkube.hash }}
      - mode: 751
      - makedirs: true
