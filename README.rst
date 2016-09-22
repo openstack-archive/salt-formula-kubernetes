@@ -430,6 +430,44 @@ Deployment manifest
                 mount: /certs
                 path: /etc/certs
 
+Configmap
+---------
+
+You are able to create configmaps using support layer between formulas.
+It works simple, eg. in nova formula there's file ``meta/config.yml`` which
+defines config files used by that service and roles.
+
+Kubernetes formula is able to generate these files using custom pillar and
+grains structure. This way you are able to run docker images built by any way
+while still re-using your configuration management.
+
+Example pillar:
+
+.. code-block:: bash
+
+    kubernetes:
+      control:
+        configmap:
+          nova-control:
+            grains:
+              os_family: Debian
+            pillar:
+              nova:
+                controller:
+                  enabled: true
+                  versionn: liberty
+                  ...
+
+To tell which services supports config generation, you need to ensure pillar
+structure like this to determine support:
+
+.. code-block:: yaml
+
+    nova:
+      _support:
+        config:
+          enabled: true
+
 Volumes
 -------
 
