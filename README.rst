@@ -472,6 +472,35 @@ structure like this to determine support:
         config:
           enabled: true
 
+initContainers
+--------------
+
+Example pillar:
+
+.. code-block:: bash
+
+    kubernetes:
+      control:
+      service:
+        memcached:
+          init_containers:
+          - name: test-mysql
+            image: busybox
+            command:
+            - sleep
+            - 3600
+            volumes:
+            - name: config
+              mount: /test
+          - name: test-memcached
+            image: busybox
+            command:
+            - sleep
+            - 3600
+            volumes:
+            - name: config
+              mount: /test
+
 Volumes
 -------
 

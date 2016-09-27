@@ -12,9 +12,30 @@ spec:
     metadata:
       labels:
         app: {{ service.service }}-{{ service.role }}
-      {%- if service.hostname is defined %}
       annotations:
+      {%- if service.hostname is defined %}
         pod.beta.kubernetes.io/hostname: {{ service.hostname }}
+      {%- endif %}
+      {%- if service.init_containers is defined %}
+        pod.alpha.kubernetes.io/init-containers: '[
+        {%- for container in service.init_containers %}
+          {
+            "name": "{{ container.name }}",
+            "image": "{% if container.registry is defined %}{{ container.registry }}/{%- endif %}{{ container.image }}{%- if container.tag is defined %}:{{ container.tag }}{%- endif %}",
+            "command": [{%- for command in container.command %}"{{ command }}"{% if not loop.last %},{% endif %}{%- endfor %}],
+            {%- if container.volumes is defined %}
+            {%- for volume in container.volumes %}
+            "volumeMounts": [
+                {
+                    "name": "{{ volume.name }}",
+                    "mountPath": "{{ volume.mount }}"
+                }
+            ]
+            {%- if not loop.last %},{% endif %}{%- endfor %}
+            {%- endif %}
+          }
+        {%- if not loop.last %},{% endif %}{% endfor %}
+        ]'
       {%- endif %}
     spec:
       {%- if service.hostNetwork is defined %}
