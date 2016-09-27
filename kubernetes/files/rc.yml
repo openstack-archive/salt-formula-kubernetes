@@ -113,6 +113,14 @@ spec:
             endpoints: {{ volume.endpoints }}
             path: {{ volume.path }}
             readOnly: {{ volume.read_only }}
+          {%- elif volume.type == 'config_map' %}
+          configMap:
+            name: {{ volume_name }}
+            items:
+              {%- for name, item in volume.item.iteritems() %}
+              - key: {{ item.key }}
+                path: {{ item.path }}
+              {%- endfor %}
           {%- endif %}
       {%- endfor %}
       {%- endif %}

@@ -480,27 +480,64 @@ hostPath
 
 .. code-block:: yaml
 
-  container:
+  service:
     memcached:
+      container:
+        memcached:
+          volumes:
+            - name: volume1
+              mountPath: /volume
+              readOnly: True
       ...
-      volumes:
-      - name: /etc/certs
-        mount: /certs
-        type: hostPath
-        path: /etc/certs
+      volume:
+        volume1:
+          name: /etc/certs
+          type: hostPath
+          path: /etc/certs
 
 emptyDir
 ========
 
 .. code-block:: yaml
 
-  container:
+  service:
     memcached:
+      container:
+        memcached:
+          volumes:
+            - name: volume1
+              mountPath: /volume
+              readOnly: True
       ...
-      volumes:
-      - name: /etc/certs
-        mount: /certs
-        type: emptyDir
+      volume:
+        volume1:
+          name: /etc/certs
+          type: emptyDir
+
+configMap
+=========
+
+.. code-block:: yaml
+
+  service:
+    memcached:
+      container:
+        memcached:
+          volumes:
+            - name: volume1
+              mountPath: /volume
+              readOnly: True
+      ...
+      volume:
+        volume1:
+          type: config_map
+          item:
+            configMap1:
+              key: config.conf
+              path: config.conf
+            configMap2:
+              key: policy.json
+              path: policy.json
 
 Documentation and Bugs
 ======================
