@@ -568,6 +568,46 @@ configMap
               key: policy.json
               path: policy.json
 
+Generating Jobs
+===============
+
+Example pillar:
+
+.. code-block:: yaml
+
+  kubernetes:
+    control:
+      job:
+        sleep:
+          job: sleep
+          restart_policy: Never
+          container:
+            sleep:
+              image: busybox
+              tag: latest
+              command:
+              - sleep
+              - "3600"
+
+Volumes and Variables can be used as the same way as during Deployment generation.
+
+Custom params:
+
+.. code-block:: yaml
+
+  kubernetes:
+    control:
+      job:
+        host_network: True
+        host_pid: True
+        container:
+          sleep:
+            privileged: True
+        node_selector:
+          key: node
+          value: one
+        image_pull_secretes: password
+
 Documentation and Bugs
 ======================
 

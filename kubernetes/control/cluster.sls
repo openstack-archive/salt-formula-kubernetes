@@ -5,6 +5,26 @@
   file.directory:
   - makedirs: true
 
+{%- if control.job is defined %}
+
+{%- for job_name, job in control.job.iteritems() %}
+
+/srv/kubernetes/jobs/{{ job_name }}-job.yml:
+  file.managed:
+  - source: salt://kubernetes/files/job.yml
+  - user: root
+  - group: root
+  - template: jinja
+  - makedirs: true
+  - require:
+    - file: /srv/kubernetes
+  - defaults:
+      job: {{ job|yaml }}
+
+{%- endfor %}
+
+{%- endif %}
+
 {%- for service_name, service in control.service.iteritems() %}
 
 {%- if service.enabled %}

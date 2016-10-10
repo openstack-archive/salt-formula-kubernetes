@@ -1,0 +1,89 @@
+{% from "kubernetes/map.jinja" import control with context %}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ job.job }}-job
+  namespace: {{ job.get('namespace', 'default') }}
+spec:
+  template:
+    metadata:
+    spec:
+      {%- if job.host_network is defined %}
+      hostNetwork: True
+      {%- endif %}
+      {%- if job.host_pid is defined %}
+      hostPID: True
+      {%- endif %}
+      containers:
+      {%- for container_name, container in job.container.iteritems() %}
+        - name: {{ container_name }}
+          image: {% if container.registry is defined %}{{ container.registry }}/{%- endif %}{{ container.image }}{%- if container.tag is defined %}:{{ container.tag }}{%- endif %}
+          imagePullPolicy: {{ container.get('image_pull_policy', 'IfNotPresent') }}
+          {%- if container.privileged is defined %}
+          securityContext:
+            privileged: True
+          {%- endif %}
+          {%- if container.variables is defined %}
+          env:
+          {%- for variable in container.variables %}
+            - name: {{ variable.name }}
+              {%- if variable.field_path is defined %}
+              valueFrom:
+                fieldRef:
+                  fieldPath: {{ variable.fieldPath }}
+              {%- else %}
+              value: {{ variable.value }}
+              {%- endif %}
+          {%- endfor %}
+          {%- endif %}
+          {%- if container.command is defined %}
+          command:
+          {%- for command in container.command %}
+            - {{ command }}
+          {%- endfor %}
+          {%- endif %}
+          {%- if container.volumes is defined %}
+          volumeMounts:
+          {%- for volume in container.volumes %}
+            - name:  {{ volume.name }}
+              mountPath: {{ volume.mount }}
+              readOnly: {{ volume.get('read_only', 'False') }}
+          {%- endfor %}
+          {%- endif %}
+      {%- endfor %}
+      {%- if job.volume is defined %}
+      volumes:
+      {%- for volume_name, volume in job.volume.iteritems() %}
+        - name: {{ volume_name }}
+          {%- if volume.type == 'empty_dir' %}
+          emptyDir: {}
+          {%- elif volume.type == 'host_path' %}
+          hostPath:
+            path: {{ volume.path }}
+          {%- elif volume.type == 'glusterfs' %}
+          glusterfs:
+            endpoints: {{ volume.endpoints }}
+            path: {{ volume.path }}
+            readOnly: {{ volume.get('read_only', 'False') }}
+          {%- elif volume.type == 'config_map' %}
+          configMap:
+            name: {{ volume_name }}
+            items:
+              {%- for name, item in volume.item.iteritems() %}
+              - key: {{ item.key }}
+                path: {{ item.path }}
+              {%- endfor %}
+          {%- endif %}
+      {%- endfor %}
+      {%- endif %}
+      restartPolicy: {{ job.restart_policy }}
+      {%- if job.nodeSelector is defined %}
+      nodeSelector:
+        {%- for selector in job.node_selector %}
+        {{ selector.key }}: {{ selector.value }}
+        {%- endfor %}
+      {%- endif %}
+      {%- if job.image_pull_secretes is defined %}
+      imagePullSecrets:
+        - name: {{ job.image_pull_secretes }}
+      {%- endif %}
