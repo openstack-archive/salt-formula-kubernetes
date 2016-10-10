@@ -568,6 +568,19 @@ configMap
               key: policy.json
               path: policy.json
 
+To mount single configuration file instead of whole directory:
+
+.. code-block:: yaml
+
+  service:
+    memcached:
+      container:
+        memcached:
+          volumes:
+            - name: volume1
+              mountPath: /volume/config.conf
+              sub_path: config.conf
+
 Generating Jobs
 ===============
 

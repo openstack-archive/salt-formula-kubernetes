@@ -85,7 +85,10 @@ spec:
           {%- for volume in container.volumes %}
             - name:  {{ volume.name }}
               mountPath: {{ volume.mount }}
-              readOnly: {{ volume.read_only }}
+              readOnly: {{ volume.get('read_only', 'False') }}
+              {%- if volume.sub_path is defined %}
+              subPath: {{ volume.sub_path }}
+              {%- endif %}
           {%- endfor %}
           {%- endif %}
           {%- if container.liveness_probe is defined %}
