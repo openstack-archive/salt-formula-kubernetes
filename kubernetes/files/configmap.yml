@@ -1,0 +1,18 @@
+{%- from "kubernetes/map.jinja" import control with context %}
+{%- macro load_support_file(file, pillar, grains) %}{% include file %}{% endmacro %}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ configmap_name }}-{{ configmap.get('version', '1') }}
+  namespace: {{ configmap.get('namespace', 'default') }}
+data:
+  {%- for service_name in configmap.pillar.keys() %}
+  {%- if pillar.get(service_name, {}).get('_support', {}).get('config', {}).get('enabled', False) %}
+  {%- set support_fragment_file = service_name+'/meta/config.yml' %}
+  {%- set service_config_files = load_support_file(support_fragment_file, configmap.pillar, configmap.get('grains', {}))|load_yaml %}
+  {%- for service_config_name, service_config in service_config_files.config.iteritems() %}
+  {{ service_config_name }}: |
+{{ load_support_file(service_config.source|replace('salt://', ''), configmap.pillar, configmap.get('grains', {}))|indent(4) }}
+  {%- endfor %}
+  {%- endif %}
+  {%- endfor %}
