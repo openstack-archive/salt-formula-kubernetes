@@ -1,0 +1,21 @@
+{%- from "kubernetes/map.jinja" import control with context %}
+{%- macro load_support_file(pillar, grains) %}{% include support_fragment_file %}{% endmacro %}
+kind: ConfigMap
+metadata:
+  creationTimestamp: {{ salt['cmd.run']('date -u "+%Y-%m-%dT%H:%M:%SZ"') }}
+  name: {{ configmap_name }}
+  namespace: {{ configmap.get('namespace', 'default') }}
+  resourceVersion: "3535170"
+  selfLink: /api/v1/namespaces/default/configmaps/{{ configmap_name }}
+apiVersion: v1
+data:
+  {%- for service_name in configmap.pillar.keys() %}
+  {%- if pillar.get(service_name, {}).get('_support', {}).get('config', {}).get('enabled', False) %}
+  {%- set support_fragment_file = service_name+'/meta/config.yml' %}
+  {%- set service_config_files = load_support_file(configmap.pillar, configmap.get('grains', {}))|load_yaml %}
+  {%- for service_config_name, service_config in service_config_files.config.iteritems() %}
+  {{ service_config_name }}: |
+{{ service_config|indent(4) }}
+  {%- endfor %}
+  {%- endif %}
+  {%- endfor %}
