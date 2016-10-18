@@ -1,0 +1,8 @@
+orchestrate:
+  master:
+    priority: 10010 # priority not yet determined
+  pool:
+    priority: 10020 # priority not yet determined
+  control:
+    priority: 10030 # priority not yet determined
+
