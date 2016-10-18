@@ -21,6 +21,13 @@
 /etc/kubernetes/config:
   file.absent
 
+manifest-dir-create:
+  file.directory:
+    - name: /etc/kubernetes/manifests
+    - user: root
+    - group: root
+    - mode: 0751
+
 {%- if pool.host.label is defined %}
 
 {%- for name,label in pool.host.label.iteritems() %}

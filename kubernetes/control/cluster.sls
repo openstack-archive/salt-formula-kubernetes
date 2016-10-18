@@ -43,7 +43,7 @@
 
 {%- endif %}
 
-/srv/kubernetes/{{ service.cluster }}/{{ service_name }}-{{ service.kind }}.yml:
+/srv/kubernetes/{{ service.kind|lower }}/{{ service_name }}-{{ service.kind }}.yml:
   file.managed:
   - source: salt://kubernetes/files/rc.yml
   - user: root
@@ -78,7 +78,7 @@
       service: {{ service|yaml }}
 
 {%- endif %}
-/srv/kubernetes/{{ service.cluster }}/{{ node_name }}-{{ service.kind }}.yml:
+/srv/kubernetes/{{ service.kind|lower }}/{{ node_name }}-{{ service.kind }}.yml:
   file.managed:
   - source: salt://kubernetes/files/rc.yml
   - user: root

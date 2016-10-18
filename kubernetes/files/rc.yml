@@ -52,7 +52,7 @@ spec:
       {%- for container_name, container in service.container.iteritems() %}
         - name: {{ container_name }}
           image: {% if container.registry is defined %}{{ container.registry }}/{%- endif %}{{ container.image }}{%- if container.tag is defined %}:{{ container.tag }}{%- endif %}
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: {{ container.get('image_pull_policy','IfNotPresent') }}
           {%- if container.privileged is defined %}
           securityContext:
             privileged: True
