@@ -430,6 +430,21 @@ Deployment manifest
                 mount: /certs
                 path: /etc/certs
 
+PetSet manifest
+---------------------
+
+.. code-block:: yaml
+
+  service:
+    memcached:
+      apiVersion: apps/v1alpha1
+      kind: PetSet
+      service_name: 'memcached'
+      container:
+        memcached:
+      ...
+
+
 Configmap
 ---------
 
