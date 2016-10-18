@@ -42,3 +42,6 @@ parameters:
             port: 4001
           - host: ${_param:cluster_node03_address}
             port: 4001
+      cni:
+        version: v0.3.0
+        hash: 58237532e1b2b1be1fb3d12457da85f5

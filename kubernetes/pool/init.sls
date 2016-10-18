@@ -4,6 +4,7 @@ include:
 {%- if pool.network.engine == "calico" %}
 - kubernetes.pool.calico
 {%- endif %}
+- kubernetes.pool.cni
 - kubernetes.pool.kubelet
 {%- if pool.network.engine == "flannel" %}
 - kubernetes.pool.flannel
