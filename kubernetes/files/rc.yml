@@ -122,7 +122,7 @@ spec:
             {%- elif container.readiness_probe.type == 'exec' %}
             exec:
               command:
-                {%- for command in container.liveness_probe.command %}
+                {%- for command in container.readiness_probe.command %}
                 - {{ command }}
                 {%- endfor %}
             {%- endif %}
@@ -146,7 +146,7 @@ spec:
             readOnly: {{ volume.read_only }}
           {%- elif volume.type == 'config_map' %}
           configMap:
-            name: {{ volume_name }}
+            name: {{ volume_name }}-{{ volume.get('version', '1') }}
             items:
               {%- for name, item in volume.item.iteritems() %}
               - key: {{ item.key }}
