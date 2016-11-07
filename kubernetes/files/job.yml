@@ -77,7 +77,7 @@ spec:
       {%- endfor %}
       {%- endif %}
       restartPolicy: {{ job.restart_policy }}
-      {%- if job.nodeSelector is defined %}
+      {%- if job.node_selector is defined %}
       nodeSelector:
         {%- for selector in job.node_selector %}
         {{ selector.key }}: {{ selector.value }}

@@ -44,6 +44,50 @@ spec:
         {%- if not loop.last %},{% endif %}{% endfor %}
         ]'
       {%- endif %}
+      {%- if service.affinity is defined %}
+        scheduler.alpha.kubernetes.io/affinity: >
+          {
+          {%- for affinity_name, affinity in service.affinity.iteritems() %}
+            "{{ affinity.name }}": {
+              {%- for expression_name, expression in affinity.expression.iteritems() %}
+              {%- if expression.name ==  'matchExpressions' %}
+              "{{ affinity.get('type','required') }}DuringSchedulingIgnoredDuringExecution": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                    {%- for selector in expression.selectors %}
+                      {
+                        "key": "{{ selector.key }}",
+                        "operator": "{{ selector.operator }}",
+                        "values": [{%- for value in selector['values'] %}"{{ value }}"{%- if not loop.last %},{% endif %}{%- endfor %}]
+                      }{%- if not loop.last %},{% endif %}
+                    {% endfor %}
+                    ]
+                  }
+                ]
+              }
+              {%- elif expression.name == 'labelSelector'  %}
+              "{{ affinity.get('type','required') }}DuringSchedulingIgnoredDuringExecution": [
+                {
+                  "labelSelector": {
+                    "matchLabels": {
+                      {%- for selector in expression.selectors %}
+                      "{{ selector.key }}": "{{ selector.value }}"
+                    {%- if not loop.last %},{% endif %}{%- endfor %}
+                    }
+                  },
+                  {%- if affinity.name == 'podAntiAffinity' or affinity.name == 'podAffinity' %}
+                  "topologyKey": "{{ affinity.topology_key }}"
+                  {%- endif %}
+                }
+              ]
+              {%- endif %}
+              {%- endfor %}
+          {%- if not loop.last %}},{% endif %}
+          {%- endfor %}
+            }
+          }
+      {%- endif %}
     spec:
       {%- if service.hostNetwork is defined %}
       hostNetwork: True

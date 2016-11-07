@@ -516,6 +516,77 @@ Example pillar:
             - name: config
               mount: /test
 
+Affinity
+--------
+
+podAffinity
+===========
+
+Example pillar:
+
+.. code-block:: bash
+
+    kubernetes:
+      control:
+      service:
+        memcached:
+          affinity:
+            pod_affinity:
+              name: podAffinity
+              expression:
+                label_selector:
+                  name: labelSelector
+                  selectors:
+                  - key: app
+                    value: memcached
+              topology_key: kubernetes.io/hostname
+
+podAntiAffinity
+===============
+
+Example pillar:
+
+.. code-block:: bash
+
+    kubernetes:
+      control:
+      service:
+        memcached:
+          affinity:
+            anti_affinity:
+              name: podAntiAffinity
+              expression:
+                label_selector:
+                  name: labelSelector
+                  selectors:
+                  - key: app
+                    value: opencontrail-control
+              topology_key: kubernetes.io/hostname
+
+nodeAffinity
+===============
+
+Example pillar:
+
+.. code-block:: bash
+
+    kubernetes:
+      control:
+      service:
+        memcached:
+          affinity:
+            node_affinity:
+              name: nodeAffinity
+              expression:
+                match_expressions:
+                  name: matchExpressions
+                  selectors:
+                  - key: key
+                    operator: In
+                    values:
+                    - value1
+                    - value2
+
 Volumes
 -------
 
