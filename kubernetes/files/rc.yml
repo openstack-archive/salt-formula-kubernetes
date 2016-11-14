@@ -1,4 +1,4 @@
-Q{% from "kubernetes/map.jinja" import control with context %}
+{% from "kubernetes/map.jinja" import control with context %}
 apiVersion: {{ service.apiVersion }}
 kind: {{ service.kind }}
 metadata:
