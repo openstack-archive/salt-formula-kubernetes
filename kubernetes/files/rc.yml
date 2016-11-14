@@ -1,4 +1,4 @@
-{% from "kubernetes/map.jinja" import control with context %}
+Q{% from "kubernetes/map.jinja" import control with context %}
 apiVersion: {{ service.apiVersion }}
 kind: {{ service.kind }}
 metadata:
@@ -28,8 +28,8 @@ spec:
             "command": [{%- for command in container.command %}"{{ command }}"{% if not loop.last %},{% endif %}{%- endfor %}]
             {%- if container.volumes is defined -%}
             ,
-            {%- for volume in container.volumes %}
             "volumeMounts": [
+            {%- for volume in container.volumes %}
                 {
                     "name": "{{ volume.name }}",
                     {%- if volume.sub_path is defined %}
@@ -37,8 +37,8 @@ spec:
                     {%- endif %}
                     "mountPath": "{{ volume.mount }}"
                 }
-            ]
             {%- if not loop.last %},{% endif %}{%- endfor %}
+            ]
             {%- endif %}
           }
         {%- if not loop.last %},{% endif %}{% endfor %}
