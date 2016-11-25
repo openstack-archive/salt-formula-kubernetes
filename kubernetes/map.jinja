@@ -34,9 +34,11 @@
 {% set control = salt['grains.filter_by']({
     'Debian': {
         'service': {},
+        'config_type': "default",
     },
     'RedHat': {
         'service': {},
+        'config_type': "default",
     },
 }, merge=salt['pillar.get']('kubernetes:control')) %}
 
