@@ -462,6 +462,7 @@ Example pillar:
 
     kubernetes:
       control:
+        config_type: default|kubernetes # Output is yaml k8s or default single files
         configmap:
           nova-control:
             grains:
