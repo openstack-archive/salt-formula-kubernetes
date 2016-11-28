@@ -28,43 +28,7 @@ addon-dir-create:
 
 {% endif %}
 
-{%- if master.addons.ui.enabled %}
-
-{%- if master.version == "v1.1.1" %}
-
-/etc/kubernetes/addons/kube-ui/kube-ui-svc.yaml:
-  file.managed:
-    - source: salt://kubernetes/files/kube-addons/kube-ui/kube-ui-svc.yaml
-    - template: jinja
-    - group: root
-    - dir_mode: 755
-    - makedirs: True
-
-/etc/kubernetes/addons/kube-ui/kube-ui-rc.yaml:
-  file.managed:
-    - source: salt://kubernetes/files/kube-addons/kube-ui/kube-ui-rc.yaml
-    - template: jinja
-    - group: root
-    - dir_mode: 755
-    - makedirs: True
-
-/etc/kubernetes/addons/kube-ui/kube-ui-address.yaml:
-  file.managed:
-    - source: salt://kubernetes/files/kube-addons/kube-ui/kube-ui-address.yaml
-    - template: jinja
-    - group: root
-    - dir_mode: 755
-    - makedirs: True
-
-/etc/kubernetes/addons/kube-ui/kube-ui-endpoint.yaml:
-  file.managed:
-    - source: salt://kubernetes/files/kube-addons/kube-ui/kube-ui-endpoint.yaml
-    - template: jinja
-    - group: root
-    - dir_mode: 755
-    - makedirs: True
-
-{% endif %}
+{%- if master.addons.dashboard.enabled %}
 
 /etc/kubernetes/addons/dashboard/dashboard-service.yaml:
   file.managed:

@@ -17,3 +17,4 @@ include:
 - kubernetes.master.glusterfs
 {%- endif %}
 - kubernetes.master.controller
+- kubernetes.master.setup

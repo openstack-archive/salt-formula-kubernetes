@@ -12,7 +12,7 @@ kubernetes:
       heapster_influxdb:
         enabled: true
         public_ip: 185.22.97.132
-      ui:
+      dashboard:
         enabled: true
         public_ip: 185.22.97.131
     admin:
