@@ -49,7 +49,7 @@ addon-dir-create:
 create_dashboard:
   cmd.run:
   - name: hyperkube kubectl create -f /etc/kubernetes/addons/dashboard/
-  - unless: hyperkube kubectl describe rc kubernetes-dashboard-v1.1.0 --namespace=kube-system
+  - unless: hyperkube kubectl get rc --namespace=kube-system | grep dashboard
   - require:
     - service: kubelet
 

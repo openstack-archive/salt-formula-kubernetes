@@ -4,7 +4,6 @@
 cni-tar:
   archive:
     - extracted
-    - user: root
     - name: /opt/cni/bin
     - source: https://github.com/containernetworking/cni/releases/download/{{ pool.cni.version }}/cni-{{ pool.cni.version }}.tgz
     - tar_options: v
