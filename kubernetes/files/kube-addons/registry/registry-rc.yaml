@@ -1,0 +1,59 @@
+{%- from "kubernetes/map.jinja" import master with context %}
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: registry
+  namespace: kube-system
+  labels:
+    k8s-app: kube-registry
+    version: v0
+    kubernetes.io/cluster-service: "true"
+spec:
+  replicas: 1
+  selector:
+    k8s-app: kube-registry
+    version: v0
+  template:
+    metadata:
+      labels:
+        k8s-app: kube-registry
+        version: v0
+        kubernetes.io/cluster-service: "true"
+    spec:
+      containers:
+      - name: registry
+        image: registry:2.5.1
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: REGISTRY_HTTP_ADDR
+          value: {{ master.addons.registry.bind.get('host', '0.0.0.0'}}:{{ master.addons.registry.bind.get('port', '5000'}}
+        - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
+          value: /var/lib/registry
+        ports:
+        - containerPort: {{ master.addons.registry.bind.get('port', '5000') }}
+          name: registry
+          protocol: TCP
+      {%- if master.addons.registry.volume is defined %}
+        volumeMounts:
+        - name: image-store
+          mountPath: /var/lib/registry
+      volumes:
+        - name: image-store
+          {%- if master.addons.registry.volume.get('type', 'emptyDir') %}
+          emptyDir: {}
+          {%- elif master.addons.registry.volume.type == 'hostPath' %}
+          hostPath:
+            path: {{ master.addons.registry.volume.path }}
+          {%- elif master.addons.registry.volume.type == 'glusterfs' %}
+          glusterfs:
+            endpoints: {{ master.addons.registry.volume.endpoints }}
+            path: {{ master.addons.registry.volume.path }}
+            readOnly: {{ master.addons.registry.volume.read_only }}
+          {%- endif %}
+      {%- endif %}
