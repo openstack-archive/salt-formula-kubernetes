@@ -47,17 +47,21 @@
     - dir_mode: 755
     - template: jinja
 
-# /etc/systemd/system/calico-node.service:
-#   file.managed:
-#     - source: salt://kubernetes/files/calico/calico-node.service
-#     - user: root
-#     - group: root
+{%- if pool.network.get('systemd', true) %}
 
-# calico_node:
-#   service.running:
-#   - name: calico-node
-#   - enable: True
-#   - watch:
-#     - file: /etc/systemd/system/calico-node.service
+/etc/systemd/system/calico-node.service:
+  file.managed:
+    - source: salt://kubernetes/files/calico/calico-node.service.pool
+    - user: root
+    - group: root
+    - template: jinja
+
+calico_node:
+  service.running:
+    - name: calico-node
+    - enable: True
+    - watch:
+      - file: /etc/systemd/system/calico-node.service
+{%- endif %}
 
 {%- endif %}
