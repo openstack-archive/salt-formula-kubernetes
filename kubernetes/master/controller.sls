@@ -124,47 +124,10 @@ master_services:
     - file: /etc/default/kube-apiserver
     - file: /etc/default/kube-scheduler
     - file: /etc/default/kube-controller-manager
+    - file: /usr/bin/hyperkube
 
 {%- endif %}
 
-{%- if not pillar.kubernetes.pool is defined %}
-
-/usr/bin/hyperkube:
-  file.managed:
-     - source: {{ master.hyperkube.get('source', 'http://apt.tcpcloud.eu/kubernetes/bin/') }}{{ master.version }}/hyperkube
-     - source_hash: md5={{ master.hyperkube.hash }}
-     - mode: 751
-     - makedirs: true
-     - user: root
-     - group: root
-
-/etc/systemd/system/kubelet.service:
-  file.managed:
-  - source: salt://kubernetes/files/systemd/kubelet.service
-  - template: jinja
-  - user: root
-  - group: root
-  - mode: 644
-
-/etc/kubernetes/config:
-  file.absent
-
-/etc/default/kubelet:
-  file.managed:
-  - source: salt://kubernetes/files/kubelet/default.master
-  - template: jinja
-  - user: root
-  - group: root
-  - mode: 644
-
-kubelet_service:
-  service.running:
-  - name: kubelet
-  - enable: True
-  - watch:
-    - file: /etc/default/kubelet
-
-{%- endif %}
 
 {%- for name,namespace in master.namespace.iteritems() %}
 
