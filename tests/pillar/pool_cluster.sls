@@ -2,6 +2,8 @@ kubernetes:
   common:
     network:
       engine: none
+    hyperkube:
+      image: hyperkube-amd64:v1.5.0-beta.3-1
   pool:
     enabled: true
     version: v1.2.0
@@ -46,6 +48,3 @@ kubernetes:
           port: 4001
     hyperkube:
       hash: hnsj0XqABgrSww7Nqo7UVTSZLJUt2XRd
-    cni:
-      version: v0.3.0
-      hash: 58237532e1b2b1be1fb3d12457da85f5
