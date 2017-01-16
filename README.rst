@@ -16,6 +16,17 @@ Extended on Contrail contribution https://github.com/Juniper/kubernetes/blob/ope
 Sample pillars
 ==============
 
+**REQUIRED:** Define version of hyperkube and image
+
+.. code-block:: yaml
+
+    parameters:
+      kubernetes:
+        common:
+          hyperkube:
+            image: docker pull gcr.io/google_containers/hyperkube:v1.4.6
+
+
 Containers on pool definitions in pool.service.local
 
 .. code-block:: yaml
