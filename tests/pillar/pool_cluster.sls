@@ -2,6 +2,8 @@ kubernetes:
   common:
     network:
       engine: none
+    hyperkube:
+      image: hyperkube-amd64:v1.5.0-beta.3-1
   pool:
     enabled: true
     version: v1.2.0
@@ -27,9 +29,10 @@ kubernetes:
       kube_proxy: DFvQ8GelB7afH3wClC9romaMPhquyyEe
     ca: kubernetes
     network:
+      calicoctl:
+        image: calico/ctl
       cni:
-        hash: 06550617ec199e89a57c94c88c891422
-        version: v1.3.1
+        image: calico/cni
       engine: calico
       hash: c15ae251b633109e63bf128c2fbbc34a
       ipam:
@@ -46,6 +49,3 @@ kubernetes:
           port: 4001
     hyperkube:
       hash: hnsj0XqABgrSww7Nqo7UVTSZLJUt2XRd
-    cni:
-      version: v0.3.0
-      hash: 58237532e1b2b1be1fb3d12457da85f5
