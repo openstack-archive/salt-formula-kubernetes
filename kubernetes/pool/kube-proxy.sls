@@ -45,7 +45,6 @@ pool_services:
   - enable: True
   - watch:
     - file: /etc/default/kube-proxy
-    - file: /usr/bin/hyperkube
 
 {%- endif %}
 

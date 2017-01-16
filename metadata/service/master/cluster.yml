@@ -7,6 +7,7 @@ parameters:
   kubernetes:
     master:
       enabled: true
+      version: ${_param:kubernetes_version}
       registry:
         host: tcpcloud
       service_addresses: 10.254.0.0/16
@@ -32,10 +33,6 @@ parameters:
           replicas: 1
           domain: cluster.local
           server: 10.254.0.10
-        dashboard:
-          enabled: True
-        heapster_influxdb:
-          enabled: False
       token:
         admin: ${_param:kubernetes_admin_token}
         kubelet: ${_param:kubernetes_kubelet_token}

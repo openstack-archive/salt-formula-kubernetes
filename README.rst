@@ -16,23 +16,6 @@ Extended on Contrail contribution https://github.com/Juniper/kubernetes/blob/ope
 Sample pillars
 ==============
 
-**REQUIRED:** Define image to use for hyperkube, CNIs and calicoctl image
-
-.. code-block:: yaml
-
-    parameters:
-      kubernetes:
-        common:
-          hyperkube:
-            image: gcr.io/google_containers/hyperkube:v1.4.6
-        pool:
-          network:
-            calicoctl:
-              image: calico/ctl
-            cni:
-              image: calico/cni
-
-
 Containers on pool definitions in pool.service.local
 
 .. code-block:: yaml
