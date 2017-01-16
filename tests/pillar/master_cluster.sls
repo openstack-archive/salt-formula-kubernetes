@@ -2,6 +2,8 @@ kubernetes:
   common:
     network:
       engine: none
+    hyperkube:
+      image: hyperkube-amd64:v1.5.0-beta.3-1
   master:
     addons:
       dns:
