@@ -1,4 +1,5 @@
 {%- from "kubernetes/map.jinja" import pool with context %}
+{%- from "kubernetes/map.jinja" import common with context %}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -8,7 +9,7 @@ spec:
   hostNetwork: true
   containers:
   - name: kube-proxy
-    image: {{ pool.registry.host }}/hyperkube:{{ pool.version }}
+    image: {{ common.hyperkube.image }}
     resources:
       requests:
         cpu: 200m
