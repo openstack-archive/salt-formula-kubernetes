@@ -1,7 +1,11 @@
 kubernetes formula
 ==================
 
-2016.1.1 (2017-01-18)
+2017.1.2 (2017-01-19)
+
+- fix cni copy order
+
+2017.1.1 (2017-01-18)
 
 - move basic k8s setup to common
 - copy cni from hyperkube
