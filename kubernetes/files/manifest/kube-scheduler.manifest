@@ -1,4 +1,5 @@
 {%- from "kubernetes/map.jinja" import master with context %}
+{%- from "kubernetes/map.jinja" import common with context %}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -12,7 +13,7 @@ spec:
   terminationGracePeriodSeconds: 30
   containers:
   - name: kube-scheduler
-    image: {{ master.registry.host }}/hyperkube:{{ master.version }}
+    image: {{ common.hyperkube.image }}
     imagePullPolicy: IfNotPresent
     command:
     - hyperkube
