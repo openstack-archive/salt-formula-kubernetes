@@ -1,0 +1,10 @@
+Code-Review+1: Tomáš Kukrál <tom@6shore.net>
+Code-Review+1: Marek Celoud <marek.celoud@tcpcloud.eu>
+Code-Review+2: Jakub Pavlik <pavlk.jakub@gmail.com>
+Workflow+1: Jakub Pavlik <pavlk.jakub@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Wed, 18 Jan 2017 14:53:09 +0000
+Reviewed-on: https://review.openstack.org/420956
+Project: openstack/salt-formula-kubernetes
+Branch: refs/heads/master
