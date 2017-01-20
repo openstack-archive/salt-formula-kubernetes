@@ -70,11 +70,12 @@ spec:
           timeoutSeconds: 5
           successThreshold: 1
           failureThreshold: 5
+{%- if master.addons.dns.get('dnsmasq', {}) %}
         args:
-        - --cache-size=1000
-        - --no-resolv
-        - --server=127.0.0.1#10053
-        - --log-facility=-
+{%- for option_name, option_value in master.addons.dns.dnsmasq.options.iteritems() %}
+        - --{{ option_name }}{% if option_value %}={{ option_value }}{% endif %}
+{%- endfor %}
+{%- endif %}
         ports:
         - containerPort: 53
           name: dns
