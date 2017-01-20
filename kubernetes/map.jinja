@@ -9,14 +9,27 @@
     },
 }, merge=salt['pillar.get']('kubernetes:common')) %}
 
+{% set _kubernetes_addons = {
+    'dns': {
+        'dnsmasq': {
+            'cache-size': '1000',
+            'no-resolv': None,
+            'server': '127.0.0.1#10053',
+            'log-facility': '-',
+        },
+    },
+} %}
+
 {% set master = salt['grains.filter_by']({
     'Debian': {
         'pkgs': [],
         'services': ['kube-apiserver','kube-scheduler','kube-controller-manager'],
+        'addons': _kubernetes_addons,
     },
     'RedHat': {
         'pkgs': [],
         'services': [],
+        'addons': _kubernetes_addons,
     },
 }, merge=salt['pillar.get']('kubernetes:master')) %}
 
@@ -24,10 +37,12 @@
     'Debian': {
         'pkgs': [],
         'services': ['kube-proxy'],
+        'addons': _kubernetes_addons,
     },
     'RedHat': {
         'pkgs': [],
         'services': [],
+        'addons': _kubernetes_addons,
     },
 }, merge=salt['pillar.get']('kubernetes:pool')) %}
 
