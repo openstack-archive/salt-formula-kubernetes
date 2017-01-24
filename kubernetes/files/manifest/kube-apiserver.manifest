@@ -27,6 +27,7 @@ spec:
       --secure-port={{ master.apiserver.get('secure_port', '443') }}
       --bind-address={{ master.apiserver.address }}
       --token-auth-file=/srv/kubernetes/known_tokens.csv
+      --etcd-quorum-read=true
       --v=2
       --allow-privileged=True
       1>>/var/log/kube-apiserver.log 2>&1
