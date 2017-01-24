@@ -96,5 +96,6 @@ kubelet_service:
   - watch:
     - file: /etc/default/kubelet
     - file: /usr/bin/hyperkube
+    - file: /etc/kubernetes/kubelet.kubeconfig
 
 {% endif %}
