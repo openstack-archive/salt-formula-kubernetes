@@ -19,11 +19,6 @@ flannel-tar:
 {%- endif %}
 
 {%- if common.hyperkube %}
-/root/.bashrc:
-  file.append:
-    - text: alias kubectl="hyperkube kubectl"
-    - makedirs: True
-
 /tmp/hyperkube:
   file.directory:
     - user: root
@@ -48,6 +43,12 @@ hyperkube-copy:
      - group: root
      - require:
        - dockerng: hyperkube-copy
+
+/usr/bin/kubectl:
+  file.symlink:
+    - target: /usr/bin/hyperkube
+    - require:
+      - file: /usr/bin/hyperkube
 
 /etc/systemd/system/kubelet.service:
   file.managed:
