@@ -28,6 +28,11 @@ parameters:
           replicas: 1
           domain: cluster.local
           server: 10.254.0.10
+          dnsmasq:
+            cache-size: 1000
+            no-resolv:
+            server: 127.0.0.1#10053
+            log-facility: "-"
         dashboard:
           enabled: True
         heapster_influxdb:
