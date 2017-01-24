@@ -88,6 +88,21 @@ hyperkube-copy:
 
 {%- endif %}
 
+manifest-dir-create:
+  file.directory:
+    - name: /etc/kubernetes/manifests
+    - user: root
+    - group: root
+    - mode: 0751
+
+/etc/kubernetes/kubelet.kubeconfig:
+  file.managed:
+    - source: salt://kubernetes/files/kubelet/kubelet.kubeconfig
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 644
+    - makedirs: true
 
 kubelet_service:
   service.running:
@@ -97,5 +112,6 @@ kubelet_service:
     - file: /etc/default/kubelet
     - file: /usr/bin/hyperkube
     - file: /etc/kubernetes/kubelet.kubeconfig
+    - file: manifest-dir-create
 
 {% endif %}
