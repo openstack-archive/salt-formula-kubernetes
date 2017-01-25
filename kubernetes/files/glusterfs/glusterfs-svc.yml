@@ -1,8 +1,0 @@
-{%- from "kubernetes/map.jinja" import master with context %}
-apiVersion: v1
-kind: Service
-metadata:
-  name: glusterfs-cluster
-spec:
-  ports:
-  - port: {{ master.storage.port }}

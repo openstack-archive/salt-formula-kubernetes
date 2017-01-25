@@ -1,3 +1,0 @@
-name: "kubernetes"
-version: "2017.1.2"
-source: "https://github.com/openstack/salt-formula-kubernetes"

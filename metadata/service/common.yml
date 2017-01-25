@@ -1,5 +1,0 @@
-parameters:
-  kubernetes:
-    common:
-      network:
-        engine: none

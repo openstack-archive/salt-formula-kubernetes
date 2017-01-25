@@ -1,4 +1,0 @@
-{%- from "kubernetes/map.jinja" import pool with context %}
-
-# test_args has to be kept at the end, so they'll overwrite any prior configuration
-DAEMON_ARGS="--require-kubeconfig --kubeconfig=/etc/kubernetes/kubelet.kubeconfig --config=/etc/kubernetes/manifests --allow-privileged={{ pool.kubelet.allow_privileged }} --cluster_dns={{ pool.cluster_dns }} --cluster_domain={{ pool.cluster_domain }} --v=2 {% if pool.network.engine == 'opencontrail' %}--network-plugin={{ pool.network.engine }}{% endif %} {% if pool.network.engine == 'calico' %}--network-plugin=cni --network-plugin-dir=/etc/cni/net.d{% endif %} --file-check-frequency={{ pool.kubelet.frequency }}"

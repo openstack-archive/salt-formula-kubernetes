@@ -1,7 +1,0 @@
-{%- from "kubernetes/map.jinja" import pool with context -%}
-{%- if pool.get('service', {})|length > 0 %}
-{%- set service_grains = {'kubernetes': {'service': pool.get('service', {}).get('local', {})}} -%}
-{% else %}
-{%- set service_grains = {'kubernetes': {}} -%}
-{%- endif %}
-{{ service_grains|yaml(False) }}

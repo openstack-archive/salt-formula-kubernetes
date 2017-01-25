@@ -1,9 +1,0 @@
-{%- from "kubernetes/map.jinja" import master with context %}
-{
-    "Network": "{{ master.network.private_ip_range }}",
-    "SubnetLen": 24,
-    "Backend": {
-        "Type": "vxlan",
-        "VNI": 1
-     }
-}

@@ -1,3 +1,0 @@
-{%- from "kubernetes/map.jinja" import master with context %}
-
-DAEMON_ARGS="--etcd-endpoints={% for member in master.network.etcd.members %}http://{{ member.host }}:4001{% if not loop.last %},{% endif %}{% endfor %} --ip-masq --etcd-prefix=/kubernetes.io/network"
