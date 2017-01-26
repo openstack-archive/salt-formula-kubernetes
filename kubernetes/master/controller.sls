@@ -116,6 +116,17 @@
   - group: root
   - mode: 644
 
+{% for filename in ['kubernetes-server.crt', 'kubernetes-server.key'] %}
+
+/etc/kubernetes/ssl/{{ filename }}:
+  file.managed:
+    - source: salt://_certs/kubernetes/{{ filename }}
+    - user: root
+    - group: root
+    - mode: 600
+
+{% endfor %}
+
 master_services:
   service.running:
   - names: {{ master.services }}
